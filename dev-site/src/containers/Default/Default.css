@@ -1,0 +1,87 @@
+/*definições da página*/
+* {
+  background-color: rgb(189, 182, 170);
+  color: black;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;   
+}
+/*fixa a larguna e tamanho da página*/
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+/*Define a cor para o background do h1*/
+h1 {
+  background-color: rgb(189, 182, 170);
+}
+/*Define o tamanho do header, cor, entre outros atributos para estilização*/
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgb(189, 182, 170);
+  height: 150px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/*estiliza o usuario*/
+#usuario {
+  background-color: white;
+  position: absolute;
+  top: 35px;
+  right: 100px;
+  padding: 0.5rem 1rem;
+  border-radius: 50%;
+  width: 75px;
+  height: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid black;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+/*estiliza a img de usuario*/
+#usuario img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/*estilização do menu interativo*/
+#menu-interativo {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background-color: black;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 10px;
+  width: 150px;
+  z-index: 10;
+}
+
+/*estiliza o ul do menu interativo*/
+.menu-interativo ul {
+  padding: 0;
+  margin: 0;
+}
+
+/*estiliza o li do menu interativo*/
+.menu-interativo li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+/*quando selecionado o li altera a cor de fundo*/
+.menu-interativo li:hover {
+  background-color: #f0f0f0;
+}

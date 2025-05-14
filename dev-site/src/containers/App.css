@@ -1,0 +1,8 @@
+/*organiza todos os componentes*/
+#conteudo-principal {
+  display: flex;
+  height: 100vh;
+}
+* {
+  font-family: "Montserrat", sans-serif;
+}

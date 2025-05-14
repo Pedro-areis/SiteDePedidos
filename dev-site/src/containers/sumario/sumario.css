@@ -1,0 +1,22 @@
+/*determina atributos para o button*/
+button {
+  width: 100%;
+  height: 100px;
+}
+
+/*determina atributos para as div's do componente*/
+#container {
+  width: 100%;
+  height: 50px;
+  background-color: rgb(77, 77, 78);
+}
+
+/*determina atributos para a section da página*/
+section {
+  display: flex;
+  padding-top: 150px;
+  width: 250px;
+  height: 100%;
+  flex-direction: column;
+  border-right: 3px solid black;
+}

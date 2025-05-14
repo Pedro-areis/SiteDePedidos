@@ -1,0 +1,68 @@
+/*determina cor e atributos para a div homeCarrinho*/
+.homeCarrinho {
+  background-color: rgb(77, 77, 78);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  padding-top: 150px;
+  flex-direction: column;
+}
+
+/*determina cor e atributos para a div inicioCarrinho*/
+.inicioCarrinho {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: rgb(77, 77, 78);
+  height: 100px;
+  width: 100%;
+}
+
+/*determina cor para o h2*/
+h2 {
+  background-color: rgb(77, 77, 78);
+}
+
+/*determina cor e atributos para a div container*/
+.form-carrinho {
+  display: flex;
+  width: 100%;
+  height: 400px;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+/*determina cor e atributos para a ul da div container*/
+.form-carrinho ul {
+  list-style: none;
+  width: 100%;
+  padding: 20px;
+}
+
+.form-carrinho li {
+  padding: 25px;
+  border: 1px solid white;
+}
+
+.form-carrinho li{
+  border-bottom: none;
+}
+.pedidos-ul {
+  width: 100%;
+}
+
+/*determina atributos para a div finalizarCompra*/
+.finalizarCompra {
+  width: 200px;
+  height: 45px;
+  bottom: 300px;
+  position: fixed;
+}
+
+/*determina atributos para o input da div finalizarCompra*/
+.finalizarCompra button {
+  height: 100%;
+  width: 100%;
+}
