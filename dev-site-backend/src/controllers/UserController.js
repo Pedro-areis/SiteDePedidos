@@ -1,5 +1,7 @@
 import conectDatabase from "../database/db.js";
 
+let ArrayPedidos = [];
+
 const conection = conectDatabase();
 
 async function getPedidos(req, res) {
@@ -64,6 +66,15 @@ function deletePedidos(req, res) {
   });
 }
 
+function getHistorico(req, res) {
+  const consulta = "SELECT * FROM carrinho";
+
+  conection.query(consulta, (err, data) => {
+    if (err) return res.json(err);
+    return res.status(200).json(data);
+  });
+}
+
 export {
   getPedidos,
   createPedidos,
@@ -71,4 +82,5 @@ export {
   deletePedidos,
   pedidoEnviado,
   getPedidoEnviado,
+  getHistorico,
 };

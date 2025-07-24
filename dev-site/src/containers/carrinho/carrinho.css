@@ -1,11 +1,15 @@
 /*determina cor e atributos para a div homeCarrinho*/
 .homeCarrinho {
   background-color: rgb(77, 77, 78);
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   padding-top: 150px;
   flex-direction: column;
+}
+
+.containerCarrinho {
+  height: 400px;
 }
 
 /*determina cor e atributos para a div inicioCarrinho*/
@@ -31,7 +35,7 @@ h2 {
   height: 400px;
   flex-direction: column;
   align-items: center;
-
+  overflow-y: auto;
 }
 
 /*determina cor e atributos para a ul da div container*/
@@ -46,7 +50,7 @@ h2 {
   border: 1px solid white;
 }
 
-.form-carrinho li{
+.form-carrinho li {
   border-bottom: none;
 }
 .pedidos-ul {
@@ -58,6 +62,7 @@ h2 {
   width: 200px;
   height: 45px;
   bottom: 300px;
+  right: 100px;
   position: fixed;
 }
 

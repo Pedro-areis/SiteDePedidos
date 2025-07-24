@@ -6,6 +6,7 @@ import {
   deletePedidos,
   pedidoEnviado,
   getPedidoEnviado,
+  getHistorico,
 } from "./controllers/UserController.js";
 
 const routes = Router();
@@ -17,5 +18,7 @@ routes.delete("/", deletePedidos);
 
 routes.get("/pedido_enviado", getPedidoEnviado);
 routes.post("/historico", pedidoEnviado);
+
+routes.get("/historico", getHistorico);
 
 export default routes;

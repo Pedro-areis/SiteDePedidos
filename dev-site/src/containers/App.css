@@ -1,6 +1,7 @@
 /*organiza todos os componentes*/
 #conteudo-principal {
   display: flex;
+  width: 100vw;
   height: 100vh;
 }
 * {

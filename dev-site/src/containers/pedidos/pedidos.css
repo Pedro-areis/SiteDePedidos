@@ -31,11 +31,13 @@ h2 {
   height: 400px;
   width: 100%;
   border-bottom: 3px solid black;
+  overflow-y: auto;
 }
 
 /*determina atributos para o ul da div container*/
 .containerPedidos ul {
   list-style: none;
+  width: 100%;
   padding: 10px;
 }
 
@@ -45,7 +47,6 @@ h2 {
 }
 
 /*determina atributos para p da div container*/
-.containerPedidos p{
+.containerPedidos p {
   padding-top: 5px;
 }
-
