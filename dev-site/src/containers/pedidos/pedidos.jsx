@@ -9,7 +9,7 @@ function Pedidos() {
   useEffect(() => {
     getHistorico();
     console.log(products);
-  }, []);
+  }, [getHistorico, products]);
 
   return (
     <div className="homePedidos">
