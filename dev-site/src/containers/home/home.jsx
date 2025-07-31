@@ -10,12 +10,13 @@ function Home() {
 
   return (
     <div className="home">
+      <img src="src/assets/img-tela-inicial.jpg" alt="img-tela-inicial" />
       <div className="inicio">
-        <h2>Promoções do dia</h2>
+        <p>Promoções do dia</p>
       </div>
       <form className="form-home" onSubmit={handleSubmit}>
         <ul>
-          <p className="pratoPrincipal">Prato Principal</p>
+          <p className="itens">Prato Principal</p>
           <li>
             <input
               type="checkbox"
@@ -49,7 +50,7 @@ function Home() {
         </ul>
 
         <ul>
-          <p className="bebidas">Bebidas</p>
+          <p className="itens">Bebidas</p>
           <li>
             <input
               type="checkbox"
@@ -83,7 +84,7 @@ function Home() {
         </ul>
 
         <ul>
-          <p className="sobremesa">Sobremesa</p>
+          <p className="itens">Sobremesa</p>
           <li>
             <input
               type="checkbox"

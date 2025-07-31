@@ -48,11 +48,9 @@ h2 {
 .form-carrinho li {
   padding: 25px;
   border: 1px solid white;
-}
-
-.form-carrinho li {
   border-bottom: none;
 }
+
 .pedidos-ul {
   width: 100%;
 }

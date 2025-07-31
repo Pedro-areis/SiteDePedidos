@@ -1,22 +1,24 @@
 /*Define cor, entre outros atributos da div home*/
 .home {
-  background-color: rgb(77, 77, 78);
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 150px;
+  border-top: 1px solid white;
 }
 
 /*Define cor, entre outros atributos da div promos*/
 .form-home {
+  margin-top: 10px;
+  background-color: rgba(146, 104, 104, 1);
   display: flex;
   justify-content: space-around;
   padding: 20px;
   gap: 20px;
-  width: 100%;
-  height: 400px;
+  width: 87%;
+  height: 100vh;
+  border-radius: 10px;
 }
 
 .form-home input {
@@ -26,21 +28,20 @@
 /*Define cor, entre outros atributos para o ul da div promos*/
 .form-home ul {
   list-style: none;
-  background-color: #dbd8bd;
+  background-color: rgba(49, 28, 28, 1);
   border-radius: 8px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
   width: 300px;
-  height: 210px;
+  height: 250px;
   text-align: center;
-  margin-top: 40px;
 }
 
 /*Define cor, entre outros atributos para o li da div promos*/
 .form-home li {
+  background-color: rgba(146, 104, 104, 1);
   display: block;
   padding: 10px;
   border-bottom: 1px solid #ddd;
-  color: black;
   font-size: 1.2rem;
 }
 
@@ -50,35 +51,24 @@
 }
 
 /*Define cor, entre outros atributos para a div inicio*/
+.inicio p {
+  margin-left: 20px;
+}
+
 .inicio {
   display: flex;
   align-items: center;
-  justify-content: center;
   text-align: center;
-  background-color: rgb(77, 77, 78);
-  height: 100px;
+  height: 50px;
   width: 100%;
+  border-bottom: 1px solid white;
 }
 .inicio h2 {
-  background-color: rgb(77, 77, 78);
+  background-color: rgba(49, 28, 28, 1);
 }
-
 /*Define cor, entre outros atributos para o prato principal*/
-.pratoPrincipal {
-  padding: 5px;
-  border: 1px solid rgb(77, 77, 78);
-  font-size: 1.5rem;
-}
-
-/*Define cor, entre outros atributos para o bebidas*/
-.bebidas {
-  padding: 5px;
-  border: 1px solid rgb(77, 77, 78);
-  font-size: 1.5rem;
-}
-
-/*Define cor, entre outros atributos para o sobremesa*/
-.sobremesa {
+.itens {
+  margin-top: 20px;
   padding: 5px;
   border: 1px solid rgb(77, 77, 78);
   font-size: 1.5rem;
@@ -90,9 +80,7 @@
   display: flex;
   justify-content: center;
   margin-top: 250px;
-  background-color: rgb(189, 182, 170);
   height: 45px;
-
 }
 
 /*Define atributos para o input de envio dos pedidos*/
@@ -110,6 +98,17 @@ li input {
 }
 
 /*Define a margem inferior para o p*/
-p {
+form p {
   margin-bottom: 20px;
+}
+
+label {
+  background-color: rgba(146, 104, 104, 1);
+}
+
+img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  display: block;
 }

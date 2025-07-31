@@ -13,13 +13,10 @@ function Default() {
   return (
     //header será a função pai da pagina
     <header>
-      <div className="header">
-        <h1>Cantina da Tia Nastacia</h1> {/*h1 com o titulo do cabeçalho*/}
-      </div>
-
-      <div id="usuario" onClick={toggleMenu}> {/*chama a função toggleMenu*/}
+      <h1>Cantina da Tia Nastacia</h1>
+      <div id="usuario" onClick={toggleMenu}>
+        {/*chama a função toggleMenu*/}
         <img src="src\assets\img_usuario.jpg" alt="Perfil" />
-
         {/*se menuAberto exibe a div menu-interativo (menu usuario)*/}
         {menuAberto && (
           <div id="menu-interativo">
