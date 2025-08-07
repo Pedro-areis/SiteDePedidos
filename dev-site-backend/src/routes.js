@@ -1,24 +1,14 @@
 import { Router } from "express";
 import {
-  getPedidos,
-  createPedidos,
-  putPedidos,
-  deletePedidos,
-  pedidoEnviado,
-  getPedidoEnviado,
-  getHistorico,
+  getProdutos,
+  getImagem,
+  postPedidos,
 } from "./controllers/UserController.js";
 
 const routes = Router();
 
-routes.get("/", getPedidos);
-routes.post("/", createPedidos);
-routes.put("/:id", putPedidos);
-routes.delete("/", deletePedidos);
-
-routes.get("/pedido_enviado", getPedidoEnviado);
-routes.post("/historico", pedidoEnviado);
-
-routes.get("/historico", getHistorico);
+routes.get("/produtosDB", getProdutos);
+routes.get("/produtosDB/imagem/:id", getImagem);
+routes.post("/pedidos", postPedidos);
 
 export default routes;

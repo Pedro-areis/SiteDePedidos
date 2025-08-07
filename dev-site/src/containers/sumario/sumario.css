@@ -1,13 +1,14 @@
 /*determina atributos para o button*/
-button {
+nav button {
   width: 150px;
   height: 40px;
   border: 0.5px solid rgba(146, 104, 104, 1);
   display: inline-block;
   border-radius: 25px;
   margin: 50px;
+  cursor: pointer;
 }
-button:hover {
+nav button:hover {
   background-color: rgba(146, 104, 104, 1);
 }
 nav {

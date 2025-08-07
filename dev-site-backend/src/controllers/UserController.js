@@ -1,11 +1,10 @@
 import conectDatabase from "../database/db.js";
 
-let ArrayPedidos = [];
-
 const conection = conectDatabase();
 
-async function getPedidos(req, res) {
-  const consulta = "SELECT * FROM pedidos";
+// Função para obter todos os produtos disponíveis no restaurante;
+async function getProdutos(req, res) {
+  const consulta = "SELECT * FROM produtos";
 
   conection.query(consulta, (err, data) => {
     if (err) return res.json(err);
@@ -13,74 +12,55 @@ async function getPedidos(req, res) {
   });
 }
 
-async function getPedidoEnviado(req, res) {
-  const consulta = "SELECT item FROM pedidos";
+// Função para obter a imagem de um produto específico pelo ID
+async function getImagem(req, res) {
+  const { id } = req.params;
+  const consulta = "SELECT imagem FROM produtos WHERE id = ?";
 
-  conection.query(consulta, (err, data) => {
-    if (err) return res.json(err);
-    res.status(200).json(data);
+  conection.query(consulta, [id], (err, data) => {
+    if (err) return res.status(500).json(err);
+    if (data.length === 0)
+      return res.status(404).json({ message: "Produto não encontrado" });
+
+    res.setHeader("Content-Type", "image/png");
+    res.end(data[0].imagem);
   });
 }
 
-async function createPedidos(req, res) {
-  const consulta = "INSERT INTO pedidos(item) VALUES(?)";
+async function postPedidos(req, res) {
+  const itens = req.body.itens;
+  const consultaPedido = "INSERT INTO pedidos () VALUES ()";
+  const consultaItem =
+    "INSERT INTO itens_pedidos (pedido_id, produto, quant_produto, valor_unitario) VALUES (?, ?, ?, ?)";
 
-  const values = JSON.stringify(req.body.item);
+  try {
+    const pedidoId = await new Promise((resolve, reject) => {
+      conection.query(consultaPedido, [], (err, result) => {
+        if (err) reject(err);
+        else resolve(result.insertId);
+      });
+    });
 
-  conection.query(consulta, [values], (err) => {
-    if (err) return res.json(err);
+    for (const item of itens) {
+      await new Promise((resolve, reject) => {
+        conection.execute(
+          consultaItem,
+          [pedidoId, item.nome, item.quantidade, item.valor_unitario],
+          (err, data) => {
+            if (err) reject(err);
+            else resolve(data);
+          }
+        );
+      });
+    }
 
-    return res.status(200).json(values);
-  });
+    res
+      .status(201)
+      .json({ message: "Todos os itens foram inseridos com sucesso" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erro ao inserir itens" });
+  }
 }
 
-function pedidoEnviado(req, res) {
-  const consulta = "INSERT INTO carrinho(pedido_enviado) VALUES(?)";
-
-  const values = JSON.stringify(req.body.pedido_enviado);
-
-  conection.query(consulta, [values], (err) => {
-    if (err) return res.json(err);
-
-    return res.status(200).json(values);
-  });
-}
-
-function putPedidos(req, res) {
-  const consulta = "UPDATE pedidos SET item = ? WHERE id = ?";
-
-  const values = [req.body.item];
-
-  conection.query(consulta, [...values, req.params.id], (err) => {
-    if (err) return res.json(err);
-    return res.status(200).json("Item atualizado");
-  });
-}
-
-function deletePedidos(req, res) {
-  const consulta = "DELETE FROM pedidos;";
-
-  conection.query(consulta, (err) => {
-    if (err) return res.json(err);
-    return res.status(200).json("Item deletado");
-  });
-}
-
-function getHistorico(req, res) {
-  const consulta = "SELECT * FROM carrinho";
-
-  conection.query(consulta, (err, data) => {
-    if (err) return res.json(err);
-    return res.status(200).json(data);
-  });
-}
-
-export {
-  getPedidos,
-  createPedidos,
-  putPedidos,
-  deletePedidos,
-  pedidoEnviado,
-  getPedidoEnviado,
-  getHistorico,
-};
+export { getProdutos, getImagem, postPedidos };

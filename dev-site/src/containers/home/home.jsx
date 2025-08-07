@@ -1,125 +1,148 @@
-import { useContext } from "react";
 import "./home.css"; //importa o css da página;
+import api from "../../services/api";
+import Counter from "./counter";
+import { useContext, useEffect, useState } from "react";
 import { PedidosContext } from "../../context/pedidosContext";
 
 //função que cria os metodos do componente home;
 function Home() {
-  const {pedidos} = useContext(PedidosContext);
-  const {handleChange} = useContext(PedidosContext);
-  const {handleSubmit} = useContext(PedidosContext);
+  const { getProdutos, produto } = useContext(PedidosContext);
+  const [counts, setCounts] = useState([]); //armazena a quantidade dos produtos selecionado;
+  const [valorCarrinho, setValorCarrinho] = useState([]); //armazena a quantidade de itens no carrinho;
+  const [itensSelecionados, setItensSelecionados] = useState([]); //armazena os itens selecionados para o carrinho;
+
+  useEffect(() => {
+    getProdutos();
+  }, []);
+
+  const handleCountChange = (index, value) => {
+    const newCounts = [...counts];
+    newCounts[index] = value;
+    setCounts(newCounts);
+  };
+
+  const addProdutos = () => {
+    const newItens = [];
+
+    produto.forEach((item, index) => {
+      if (counts[index] > 0) {
+        newItens.push({
+          nome: item.nome,
+          valor: item.valor,
+          quantidade: counts[index],
+        });
+      }
+    });
+
+    setItensSelecionados((prev) => [...prev, ...newItens]);
+    console.log("Itens adicionados:", newItens);
+  };
+
+  const mostrarBotao = () => {
+    return (
+      <button
+        className="btn-add-carrinho"
+        onClick={() => {
+          setValorCarrinho((prev) =>
+            prev.length === counts.length
+              ? prev.map((v, i) => v + (counts[i] || 0))
+              : [...counts]
+          );
+          addProdutos();
+          setCounts(Array(counts.length).fill(0));
+          console.log("Valor do carrinho atualizado:", itensSelecionados);
+        }}
+      >
+        Adicionar ao carrinho
+      </button>
+    );
+  };
+
+  useEffect(() => {
+    setCounts(Array(produto.length).fill(0));
+    setValorCarrinho(Array(produto.length).fill(0));
+  }, [produto]);
+
+  const postPedidos = async () => {
+    try {
+      console.log("Antes do await");
+      const response = await api.post("/pedidos", {
+        itens: itensSelecionados.map((item) => ({
+          nome: item.nome,
+          valor_unitario: item.valor,
+          quantidade: item.quantidade,
+        })),
+      });
+      console.log("Depois do await");
+
+      setItensSelecionados([]);
+      setValorCarrinho([]);
+
+      console.log("Pedido enviado com sucesso:", response.data);
+      console.log("Lista limpa:", itensSelecionados);
+      alert("Pedido enviado com sucesso!");
+    } catch (err) {
+      console.error("Erro ao enviar pedido:", err);
+    }
+  };
 
   return (
     <div className="home">
-      <img src="src/assets/img-tela-inicial.jpg" alt="img-tela-inicial" />
+      <img
+        src="src/assets/img-tela-inicial.jpg"
+        alt="img-tela-inicial"
+        className="img-tela-inicial"
+      />
       <div className="inicio">
-        <p>Promoções do dia</p>
+        <h2>Promoções do dia</h2>
       </div>
-      <form className="form-home" onSubmit={handleSubmit}>
-        <ul>
-          <p className="itens">Prato Principal</p>
-          <li>
-            <input
-              type="checkbox"
-              id="arroz-com-frango"
-              value="Arroz com Frango"
-              onChange={handleChange}
-              checked={pedidos.includes("Arroz com Frango")}
-            />
-            <label for="arroz-com-frango">Arroz com Frango</label>
-          </li>
-          <li>
-            <input
-              type="checkbox"
-              id="feijoada"
-              value="Feijoada"
-              onChange={handleChange}
-              checked={pedidos.includes("Feijoada")}
-            />
-            <label for="feijoada">Feijoada</label>
-          </li>
-          <li>
-            <input
-              type="checkbox"
-              id="churrasco"
-              value="Churrasco"
-              onChange={handleChange}
-              checked={pedidos.includes("Churrasco")}
-            />
-            <label for="churrasco">Churrasco</label>
-          </li>
-        </ul>
+      <section className="pedidosDia">
+        {produto.map((produto, index) => (
+          <article key={index}>
+            <div className="img-promo">
+              <h3>{produto.nome}</h3>
+              <img
+                src={`http://localhost:3000/produtosDB/imagem/${produto.id}`}
+                alt={produto.nome}
+              />
+              {counts[index] >= 1 ? mostrarBotao() : null}
+            </div>
 
-        <ul>
-          <p className="itens">Bebidas</p>
-          <li>
-            <input
-              type="checkbox"
-              id="refrigerante"
-              value="Refrigerante"
-              onChange={handleChange}
-              checked={pedidos.includes("Refrigerante")}
-            />
-            <label for="refrigerante">Refrigerante</label>
-          </li>
-          <li>
-            <input
-              type="checkbox"
-              id="suco"
-              value="Suco"
-              onChange={handleChange}
-              checked={pedidos.includes("Suco")}
-            />
-            <label for="suco">Suco</label>
-          </li>
-          <li>
-            <input
-              type="checkbox"
-              id="cerveja"
-              value="Cerveja"
-              onChange={handleChange}
-              checked={pedidos.includes("Cerveja")}
-            />
-            <label for="cerveja">Cerveja</label>
-          </li>
-        </ul>
+            <div className="info-item">
+              <p>
+                {produto.descricao} <br />
+                <br />
+              </p>
+              <h3>
+                Valor: R${" "}
+                {counts[index] <= 1
+                  ? Number(produto.valor).toLocaleString("pt-BR", {
+                      minimumFractionDigits: 2,
+                    })
+                  : (produto.valor * counts[index]).toLocaleString("pt-BR", {
+                      minimumFractionDigits: 2,
+                    })}
+              </h3>
+              <div className="set-quantidade">
+                <Counter
+                  count={counts[index]}
+                  setCount={(value) => handleCountChange(index, value)}
+                />
+              </div>
+            </div>
+          </article>
+        ))}
+      </section>
 
-        <ul>
-          <p className="itens">Sobremesa</p>
-          <li>
-            <input
-              type="checkbox"
-              id="arroz-doce"
-              value="Arroz doce"
-              onChange={handleChange}
-              checked={pedidos.includes("Arroz doce")}
-            />
-            <label for="arroz-doce">Arroz doce</label>
-          </li>
-          <li>
-            <input
-              type="checkbox"
-              id="sorvete"
-              value="Sorvete"
-              onChange={handleChange}
-              checked={pedidos.includes("Sorvete")}
-            />
-            <label for="sorvete">Sorvete</label>
-          </li>
-          <li>
-            <input
-              type="checkbox"
-              id="cocada"
-              value="Cocada"
-              onChange={handleChange}
-              checked={pedidos.includes("Cocada")}
-            />
-            <label for="cocada">Cocada</label>
-          </li>
-        </ul>
-        <div id="pedidosSelecionados">
-          <button>Enviar Pedidos</button>
+      <section className="produtos geral"></section>
+      <div className="botao-carrinho">
+        <button onClick={postPedidos}>
+          <img src="src/assets/img-carrinho.png" alt="img_carrinho" />
+        </button>
+        <div className="indice-carrinho">
+          <p>{valorCarrinho.reduce((total, count) => total + count, 0)}</p>
         </div>
-      </form>
+      </div>
     </div>
   );
 }
