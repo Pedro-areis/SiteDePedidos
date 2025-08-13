@@ -6,6 +6,8 @@ import { useState } from "react";
 //função principal PedidosProvider (useContext);
 export function PedidosProvider({ children }) {
   const [produto, setProduto] = useState([]);
+  const [pedidos, setPedidos] = useState([]);
+  const [pedidosHistorico, setPedidosHistorico] = useState([]);
 
   // Função para buscar os produtos da API
   const getProdutos = async () => {
@@ -17,8 +19,72 @@ export function PedidosProvider({ children }) {
     }
   };
 
+  const getPedidos = async () => {
+    try {
+      const response = await api.get("/carrinho");
+      setPedidos(response.data);
+      console.log("Pedidos no carrinho:", response.data);
+    } catch (err) {
+      console.error("Erro ao buscar pedidos no carrinho:", err);
+    }
+  };
+
+  const deleteItem = async (id) => {
+    try {
+      await api.delete(`/carrinho/${id}`);
+      setPedidos((prevPedidos) =>
+        prevPedidos.filter((pedidos) => pedidos.id !== id)
+      );
+    } catch (err) {
+      console.error("Erro ao excluir pedido:", err);
+    }
+  };
+
+  // const deletePedido = async (id) => {
+  //   try {
+  //     await api.delete(`/carrinho/pedido/${id}`);
+  //     setPedidos((prevPedidos) =>
+  //       prevPedidos.filter((pedidos) => pedidos.id !== id)
+  //     );
+  //   } catch (err) {
+  //     console.error("Erro ao excluir pedido:", err);
+  //   }
+  // };
+
+  const getHistorico = async () => {
+    try {
+      const response = await api.get("/historico");
+      setPedidosHistorico(response.data);
+      console.log("Pedidos no historico", response.data);
+    } catch (err) {
+      console.error("Erro ao buscar produtos:", err);
+    }
+  };
+
+  const updateStatus = async (id) => {
+    try {
+      await api.put(`/historico/${id}`);
+      setPedidos((prevPedidos) =>
+        prevPedidos.filter((pedidos) => pedidos.pedido_id !== id)
+      );
+    } catch (err) {
+      console.error("Erro ao finalizar pedido!", err);
+    }
+  };
+
   return (
-    <PedidosContext.Provider value={{ getProdutos, produto }}>
+    <PedidosContext.Provider
+      value={{
+        getProdutos,
+        produto,
+        getPedidos,
+        pedidos,
+        deleteItem,
+        getHistorico,
+        pedidosHistorico,
+        updateStatus,
+      }}
+    >
       {children}
     </PedidosContext.Provider>
   );

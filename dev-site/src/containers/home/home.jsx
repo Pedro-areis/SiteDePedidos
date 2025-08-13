@@ -65,7 +65,6 @@ function Home() {
 
   const postPedidos = async () => {
     try {
-      console.log("Antes do await");
       const response = await api.post("/pedidos", {
         itens: itensSelecionados.map((item) => ({
           nome: item.nome,
@@ -73,7 +72,6 @@ function Home() {
           quantidade: item.quantidade,
         })),
       });
-      console.log("Depois do await");
 
       setItensSelecionados([]);
       setValorCarrinho([]);
