@@ -4,7 +4,6 @@ import {
   getImagem,
   postPedidos,
   getPedidos,
-  deletePedido,
   deleteItem,
   getHistorico,
   updateStatus,
@@ -20,8 +19,7 @@ routes.get("/historico", getHistorico);
 routes.post("/pedidos", postPedidos);
 
 routes.delete("/carrinho/:id", deleteItem);
-routes.delete("/carrinho/pedido/:id", deletePedido);
 
-routes.put("/historico/:id", updateStatus);
+routes.put("/historico/:pedido_id", updateStatus);
 
 export default routes;

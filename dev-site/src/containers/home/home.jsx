@@ -64,8 +64,10 @@ function Home() {
   }, [produto]);
 
   const postPedidos = async () => {
+    const pedidoId = localStorage.getItem("pedido_id");
     try {
       const response = await api.post("/pedidos", {
+        pedido_id: pedidoId,
         itens: itensSelecionados.map((item) => ({
           nome: item.nome,
           valor_unitario: item.valor,
@@ -73,11 +75,16 @@ function Home() {
         })),
       });
 
+      if (!pedidoId && response.data?.pedido_id) {
+        localStorage.setItem("pedido_id", response.data.pedido_id);
+      }
+
       setItensSelecionados([]);
       setValorCarrinho([]);
 
       console.log("Pedido enviado com sucesso:", response.data);
       console.log("Lista limpa:", itensSelecionados);
+      console.log("LocalStorage é:", localStorage.getItem("pedido_id"));
       alert("Pedido enviado com sucesso!");
     } catch (err) {
       console.error("Erro ao enviar pedido:", err);

@@ -42,9 +42,7 @@ function Carrinho() {
         )}
       </div>
       <div className="botao-finalizar-pedido">
-        <button onClick={() => updateStatus(pedidos.pedido_id)}>
-          Finalizar pedido
-        </button>
+        <button onClick={() => updateStatus()}>Finalizar pedido</button>
       </div>
     </main>
   );

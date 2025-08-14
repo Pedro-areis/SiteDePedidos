@@ -40,17 +40,6 @@ export function PedidosProvider({ children }) {
     }
   };
 
-  // const deletePedido = async (id) => {
-  //   try {
-  //     await api.delete(`/carrinho/pedido/${id}`);
-  //     setPedidos((prevPedidos) =>
-  //       prevPedidos.filter((pedidos) => pedidos.id !== id)
-  //     );
-  //   } catch (err) {
-  //     console.error("Erro ao excluir pedido:", err);
-  //   }
-  // };
-
   const getHistorico = async () => {
     try {
       const response = await api.get("/historico");
@@ -61,12 +50,21 @@ export function PedidosProvider({ children }) {
     }
   };
 
-  const updateStatus = async (id) => {
+  const updateStatus = async () => {
     try {
+      const id = Number(localStorage.getItem("pedido_id"));
+
+      console.log("ID do pedido no localStorage:", id);
+
       await api.put(`/historico/${id}`);
+
       setPedidos((prevPedidos) =>
-        prevPedidos.filter((pedidos) => pedidos.pedido_id !== id)
+        prevPedidos.filter((pedido) => pedido.pedido_id !== id)
       );
+
+      localStorage.removeItem("pedido_id");
+
+      console.log("Sucesso!!!!", id);
     } catch (err) {
       console.error("Erro ao finalizar pedido!", err);
     }
