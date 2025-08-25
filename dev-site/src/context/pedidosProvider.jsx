@@ -1,15 +1,19 @@
 //importações;
 import api from "../services/api.js";
+
 import { PedidosContext } from "./pedidosContext";
 import { useState } from "react";
 
 //função principal PedidosProvider (useContext);
 export function PedidosProvider({ children }) {
+  
+  const [login, setLogin] = useState(false);
+
   const [produto, setProduto] = useState([]);
   const [pedidos, setPedidos] = useState([]);
   const [pedidosHistorico, setPedidosHistorico] = useState([]);
-
   // Função para buscar os produtos da API
+
   const getProdutos = async () => {
     try {
       const response = await api.get("/produtosDB");
@@ -81,6 +85,8 @@ export function PedidosProvider({ children }) {
         getHistorico,
         pedidosHistorico,
         updateStatus,
+        setLogin,
+        login
       }}
     >
       {children}

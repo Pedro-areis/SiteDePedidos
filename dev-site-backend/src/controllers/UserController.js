@@ -1,6 +1,80 @@
 import conectDatabase from "../database/db.js";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
 const conection = conectDatabase();
+
+const SECRET = "CHAVE_SECRETA";
+
+async function createUser(req, res) {
+  const { nome, email, senha } = req.body;
+
+  try {
+    console.log(req.body); 
+    if (!senha) return res.status(400).json({ error: "Senha não fornecida" });
+
+    const hash = await bcrypt.hash(senha, 10);
+
+    const [result] = await conection.query(
+      "INSERT INTO users (nome, email, senha_hash) VALUES (?, ?, ?)",
+      [nome, email, hash]
+    );
+
+    res.status(201).json({
+      message: "Usuário criado com sucesso!",
+      userId: result.insertId,
+    });
+  } catch (err) {
+    console.error("Erro ao criar usuário:", err);
+    res.status(500).json({ error: "Erro ao criar usuário" });
+  }
+}
+
+async function validarUser(req, res) {
+  const { email, senha } = req.body;
+
+  try {
+    const [rows] = await conection.query(
+      "SELECT * FROM users WHERE email = ? LIMIT 1",
+      [email]
+    );
+
+    if (rows.length === 0) {
+      return res.status(401).json({ error: "Usuário não encontrado" });
+    }
+
+    const usuario = rows[0];
+    const valido = await bcrypt.compare(senha, usuario.senha_hash);
+
+    if (!valido) {
+      return res.status(401).json({ error: "Senha incorreta" });
+    }
+
+    // Cria token com id e role
+    const token = jwt.sign({ id: usuario.id, role: usuario.role }, SECRET, {
+      expiresIn: "1h",
+    });
+
+    res.json({ token });
+  } catch (err) {
+    console.error("Erro ao validar usuário:", err);
+    res.status(500).json({ error: "Erro interno no servidor" });
+  }
+}
+
+function autenticarToken(req, res, next) {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (!token) return res.status(401).json({ error: "Token não encontrado" });
+
+  jwt.verify(token, SECRET, (err, usuario) => {
+    if (err) return res.status(403).json({ error: "Token inválido" });
+
+    req.usuario = usuario;
+    next();
+  });
+}
 
 // Função para obter todos os produtos disponíveis no restaurante;
 async function getProdutos(req, res) {
@@ -136,4 +210,6 @@ export {
   deleteItem,
   getHistorico,
   updateStatus,
+  createUser,
+  validarUser,
 };

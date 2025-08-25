@@ -1,13 +1,25 @@
 import "./Default.css"; //importa o css da página;
-import { useState } from "react"; //importa o useState;
+import { useState, useContext } from "react"; //importa o useState;
+import { useNavigate } from "react-router-dom"; //importa o useNavigate do react-router-dom;
+import { PedidosContext } from "../../context/pedidosContext";
 
 //função default da página (cabeçalho, conta, configurações, etc);
 function Default() {
   const [menuAberto, setMenuAberto] = useState(false); //cria a variavel menuAberto para determinar se a irá apresentar o menu de usuario;
+  const navigator = useNavigate(); // Hook para navegação
+  const { login, setLogin } = useContext(PedidosContext);
 
   //função toggleMenu para identificar quando houver a interação;
   const toggleMenu = () => {
     setMenuAberto(!menuAberto);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigator("/login");
+    setLogin(false);
+
+    console.log("Usuário deslogado", login);
   };
 
   return (
@@ -20,11 +32,16 @@ function Default() {
         {/*se menuAberto exibe a div menu-interativo (menu usuario)*/}
         {menuAberto && (
           <div id="menu-interativo">
-            <ul>
-              <li>Meu perfil</li>
-              <li>Configurações</li>
-              <li>Sair</li>
-            </ul>
+            <form className="form-menu">
+              <input type="button" id="meu-perfil" value="Meu Perfil" />
+              <input type="button" id="config" value="Configurações" />
+              <input
+                type="button"
+                id="sair"
+                value="Sair"
+                onClick={handleLogout}
+              />
+            </form>
           </div>
         )}
       </div>

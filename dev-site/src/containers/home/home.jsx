@@ -85,7 +85,12 @@ function Home() {
       console.log("Pedido enviado com sucesso:", response.data);
       console.log("Lista limpa:", itensSelecionados);
       console.log("LocalStorage é:", localStorage.getItem("pedido_id"));
-      alert("Pedido enviado com sucesso!");
+
+      if (itensSelecionados.length == 0) {
+        alert("Selecione um item para enviar ao carrinho.");
+      } else {
+        alert("Pedido enviado com sucesso!");
+      }
     } catch (err) {
       console.error("Erro ao enviar pedido:", err);
     }

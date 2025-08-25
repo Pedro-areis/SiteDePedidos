@@ -1,15 +1,14 @@
 import "./sumario.css"; //importa o código css;
+import { useNavigate } from "react-router-dom"; //importa o useNavigate do react-router-dom;
 
-function Sumario({ setPagina }) {
-  //função responsável pelo encaminhamento das páginas;
+function Sumario() {
+  const navigate = useNavigate(); // Hook para navegação
+
   return (
     <nav>
-      <button onClick={() => setPagina("home")}>Home</button>{" "}
-      {/*botão Home para acionar o componente*/}
-      <button onClick={() => setPagina("carrinho")}>Carrinho</button>{" "}
-      {/*botão Carrinho para acionar o componente*/}
-      <button onClick={() => setPagina("pedidos")}>Pedidos</button>{" "}
-      {/*botão Pedidos para acionar o componente*/}
+      <button onClick={() => navigate("/")}>Home</button>
+      <button onClick={() => navigate("/carrinho")}>Carrinho</button>
+      <button onClick={() => navigate("/pedidos")}>Pedidos</button>
     </nav>
   );
 }
