@@ -3,6 +3,14 @@ Estou desenvolvendo um sistema para pedidos de um restaurante, nele terá a opç
 
 Para desenvolvimento do sistema, utilizei as tecnologias: React.js (Frontend), Node.js (Backend), Express.js (Rotas), API REST FULL e MySQL (Banco de dados). O sistema está totalmente estruturado em JavaScript, tenho me aprofundado na linguagem a cada dia.
 
+## Tela de login
+
+<img width="1904" height="917" alt="image" src="https://github.com/user-attachments/assets/1d625cdd-9127-47a1-a12f-344e67ce6a9e" />
+
+## Cadastro de usuário
+
+<img width="1913" height="917" alt="image" src="https://github.com/user-attachments/assets/49501f5a-3c37-4fa3-8bd3-4f2ab611e0d1" />
+
 ## Funcionalidade do sistema - HOME
 Ao entrar no site, você irá para a tela Home, um componente apenas para mostrar os itens no cadápio (inicialmente possui apenas alguns itens, mas em breve será possível até mesmo a edição pelo admin do site), o usuário seleciona os itens e os envia para o carrinho.
 
