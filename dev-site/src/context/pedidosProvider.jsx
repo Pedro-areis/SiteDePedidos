@@ -6,7 +6,8 @@ import { useState } from "react";
 
 //função principal PedidosProvider (useContext);
 export function PedidosProvider({ children }) {
-  
+  const [idUsuario, setIdUsuario] = useState(null); // Estado para armazenar o ID do usuário
+
   const [login, setLogin] = useState(false);
 
   const [produto, setProduto] = useState([]);
@@ -59,7 +60,7 @@ export function PedidosProvider({ children }) {
       const id = Number(localStorage.getItem("pedido_id"));
 
       console.log("ID do pedido no localStorage:", id);
-
+      
       await api.put(`/historico/${id}`);
 
       setPedidos((prevPedidos) =>
@@ -86,7 +87,9 @@ export function PedidosProvider({ children }) {
         pedidosHistorico,
         updateStatus,
         setLogin,
-        login
+        login,
+        setIdUsuario,
+        idUsuario,
       }}
     >
       {children}

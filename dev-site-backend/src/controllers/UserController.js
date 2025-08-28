@@ -10,7 +10,7 @@ async function createUser(req, res) {
   const { nome, email, senha } = req.body;
 
   try {
-    console.log(req.body); 
+    console.log(req.body);
     if (!senha) return res.status(400).json({ error: "Senha não fornecida" });
 
     const hash = await bcrypt.hash(senha, 10);
@@ -51,11 +51,11 @@ async function validarUser(req, res) {
     }
 
     // Cria token com id e role
-    const token = jwt.sign({ id: usuario.id, role: usuario.role }, SECRET, {
+    const token = jwt.sign({ userId: usuario.id }, SECRET, {
       expiresIn: "1h",
     });
 
-    res.json({ token });
+    res.json({ token, userId: usuario.id });
   } catch (err) {
     console.error("Erro ao validar usuário:", err);
     res.status(500).json({ error: "Erro interno no servidor" });
@@ -64,16 +64,19 @@ async function validarUser(req, res) {
 
 function autenticarToken(req, res, next) {
   const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
+  if (!authHeader)
+    return res.status(401).json({ error: "Token não fornecido" });
 
-  if (!token) return res.status(401).json({ error: "Token não encontrado" });
+  const token = authHeader.split(" ")[1];
+  if (!token) return res.status(401).json({ error: "Token inválido" });
 
-  jwt.verify(token, SECRET, (err, usuario) => {
-    if (err) return res.status(403).json({ error: "Token inválido" });
-
-    req.usuario = usuario;
+  try {
+    const decoded = jwt.verify(token, SECRET);
+    req.userId = decoded.userId;
     next();
-  });
+  } catch (err) {
+    return res.status(403).json({ error: "Token expirado ou inválido" });
+  }
 }
 
 // Função para obter todos os produtos disponíveis no restaurante;
@@ -105,21 +108,23 @@ async function getImagem(req, res) {
 }
 
 async function postPedidos(req, res) {
-  const itens = req.body.itens;
+  const { itens, user_id } = req.body;
 
   try {
     let pedidoId;
 
     // Verifica se já existe pedido aberto
     const [rows] = await conection.query(
-      "SELECT id FROM pedidos WHERE status = 0 LIMIT 1"
+      "SELECT id FROM pedidos WHERE status = 0 AND user_id = ? LIMIT 1",
+      [user_id]
     );
 
     if (rows.length > 0) {
       pedidoId = rows[0].id;
     } else {
       const [result] = await conection.query(
-        "INSERT INTO pedidos (status) VALUES (0)"
+        "INSERT INTO pedidos (status, user_id) VALUES (0, ?)",
+        [user_id]
       );
       pedidoId = result.insertId;
     }
@@ -144,12 +149,16 @@ async function postPedidos(req, res) {
 
 async function getPedidos(req, res) {
   try {
-    const [rows] = await conection.query(`
+    const userId = req.userId;
+    const [rows] = await conection.query(
+      `
       SELECT itens_pedidos.* 
       FROM itens_pedidos 
       JOIN pedidos ON itens_pedidos.pedido_id = pedidos.id 
-      WHERE pedidos.status = 0
-    `);
+      WHERE pedidos.status = 0 AND pedidos.user_id = ?
+    `,
+      [userId]
+    );
     res.status(200).json(rows);
   } catch (err) {
     res.status(500).json(err);
@@ -174,12 +183,16 @@ async function deleteItem(req, res) {
 
 async function getHistorico(req, res) {
   try {
-    const [rows] = await conection.query(`
+    const userId = req.userId;
+    const [rows] = await conection.query(
+      `
       SELECT itens_pedidos.*, pedidos.dt_pedido, pedidos.status 
       FROM itens_pedidos 
       JOIN pedidos ON itens_pedidos.pedido_id = pedidos.id 
-      WHERE pedidos.status = 1
-    `);
+      WHERE pedidos.status = 1 AND pedidos.user_id = ?
+    `,
+      [userId]
+    );
     res.status(200).json(rows);
   } catch (err) {
     res.status(500).json(err);
@@ -212,4 +225,5 @@ export {
   updateStatus,
   createUser,
   validarUser,
+  autenticarToken,
 };

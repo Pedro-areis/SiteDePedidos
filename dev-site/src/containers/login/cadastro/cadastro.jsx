@@ -7,6 +7,8 @@ function Cadastro() {
   const [email, setEmail] = useState("");
   const [nome, setNome] = useState("");
 
+
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -40,6 +42,7 @@ function Cadastro() {
       });
 
       console.log(response.data);
+      
       alert("Usuário cadastrado com sucesso! Faça o login para continuar.");
       navigate("/login");
     } catch (err) {

@@ -28,8 +28,19 @@ function LoginPage({ setLogin }) {
 
       const token = response.data.token;
       localStorage.setItem("token", token);
+
       setLogin(true);
       navigate("/");
+
+      localStorage.setItem("userId", response.data.userId);
+      const userId = localStorage.getItem("userId");
+
+      console.log(
+        "Login bem-sucedido! Seu userId é: ",
+        userId,
+        " e o token é: ",
+        token
+      );
     } catch (err) {
       console.error(err);
       alert("Login ou senha incorretos. Tente novamente.");

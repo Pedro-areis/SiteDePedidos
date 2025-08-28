@@ -4,10 +4,12 @@ import { PedidosContext } from "../../context/pedidosContext";
 
 function Pedidos() {
   //função que cria os metodos da página carrinho;
-  const { getHistorico, pedidosHistorico } = useContext(PedidosContext);
+  const { getHistorico, pedidosHistorico } =
+    useContext(PedidosContext);
 
   useEffect(() => {
     getHistorico();
+    console.log("ID do usuário logado:", localStorage.getItem("userId"));
   }, []);
 
   const pedidos = pedidosHistorico;

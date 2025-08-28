@@ -9,14 +9,15 @@ import {
   updateStatus,
   createUser,
   validarUser,
+  autenticarToken,
 } from "./controllers/UserController.js";
 
 const routes = Router();
 
 routes.get("/produtosDB", getProdutos);
 routes.get("/produtosDB/imagem/:id", getImagem);
-routes.get("/carrinho", getPedidos);
-routes.get("/historico", getHistorico);
+routes.get("/carrinho", autenticarToken, getPedidos);
+routes.get("/historico", autenticarToken, getHistorico);
 
 routes.post("/pedidos", postPedidos);
 

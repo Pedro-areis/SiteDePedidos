@@ -65,8 +65,11 @@ function Home() {
 
   const postPedidos = async () => {
     const pedidoId = localStorage.getItem("pedido_id");
+
     try {
+      const user_id = localStorage.getItem("userId");
       const response = await api.post("/pedidos", {
+        user_id: user_id,
         pedido_id: pedidoId,
         itens: itensSelecionados.map((item) => ({
           nome: item.nome,
