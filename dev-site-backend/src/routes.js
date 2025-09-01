@@ -10,6 +10,7 @@ import {
   createUser,
   validarUser,
   autenticarToken,
+  getUserById,
 } from "./controllers/UserController.js";
 
 const routes = Router();
@@ -28,5 +29,6 @@ routes.put("/historico/:pedido_id", updateStatus);
 //rotas de usuário
 routes.post("/createUser", createUser);
 routes.post("/login", validarUser);
+routes.get("/user", autenticarToken, getUserById);
 
 export default routes;

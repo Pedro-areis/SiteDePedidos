@@ -55,7 +55,7 @@ async function validarUser(req, res) {
       expiresIn: "1h",
     });
 
-    res.json({ token, userId: usuario.id });
+    res.json({ token, userId: usuario.id, role: usuario.role });
   } catch (err) {
     console.error("Erro ao validar usuário:", err);
     res.status(500).json({ error: "Erro interno no servidor" });
@@ -215,6 +215,23 @@ async function updateStatus(req, res) {
   }
 }
 
+async function getUserById(req, res) {
+  const user_id = req.userId;
+  try {
+    const [rows] = await conection.query(
+      "SELECT nome, email, created_at FROM users WHERE id = ?",
+      [user_id]
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).json({ message: "Usuário não encontrado" });
+    }
+    res.status(200).json(rows[0]);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+}
+
 export {
   getProdutos,
   getImagem,
@@ -226,4 +243,5 @@ export {
   createUser,
   validarUser,
   autenticarToken,
+  getUserById,
 };

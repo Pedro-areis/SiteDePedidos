@@ -12,6 +12,7 @@ import Carrinho from "./carrinho/carrinho.jsx";
 import Pedidos from "./pedidos/pedidos.jsx";
 import LoginPage from "./login/login.jsx";
 import Cadastro from "./login/cadastro/cadastro.jsx";
+import EditItens from "./home/edit_itens/edit_itens.jsx";
 
 //função App para a troca de páginas;
 function App() {
@@ -36,6 +37,10 @@ function App() {
         <Route
           path="/pedidos"
           element={login ? <Pedidos /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="edit_itens"
+          element={login ? <EditItens /> : <Navigate to="/login" />}
         />
       </Routes>
     </BrowserRouter>

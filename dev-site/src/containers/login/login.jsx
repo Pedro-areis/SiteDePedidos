@@ -27,7 +27,9 @@ function LoginPage({ setLogin }) {
       });
 
       const token = response.data.token;
+      const role = response.data.role;
       localStorage.setItem("token", token);
+      localStorage.setItem("role", role);
 
       setLogin(true);
       navigate("/");
@@ -39,7 +41,9 @@ function LoginPage({ setLogin }) {
         "Login bem-sucedido! Seu userId é: ",
         userId,
         " e o token é: ",
-        token
+        token,
+        "sua role é: ",
+        role
       );
     } catch (err) {
       console.error(err);

@@ -11,6 +11,7 @@ function Home() {
   const [valorCarrinho, setValorCarrinho] = useState([]); //armazena a quantidade de itens no carrinho;
   const [itensSelecionados, setItensSelecionados] = useState([]); //armazena os itens selecionados para o carrinho;
 
+
   useEffect(() => {
     getProdutos();
   }, []);
@@ -147,7 +148,7 @@ function Home() {
         ))}
       </section>
 
-      <section className="produtos geral"></section>
+      <section className="produtos-geral"></section>
       <div className="botao-carrinho">
         <button onClick={postPedidos}>
           <img src="src/assets/img-carrinho.png" alt="img_carrinho" />

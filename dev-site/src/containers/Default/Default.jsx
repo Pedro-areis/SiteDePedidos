@@ -1,4 +1,7 @@
 import "./Default.css"; //importa o css da página;
+import ConfigUser from "./config-user/config-user.jsx"; //importa o componente ConfigUser;
+import UserInfo from "./user-info/user-info.jsx";
+
 import { useState, useContext } from "react"; //importa o useState;
 import { useNavigate } from "react-router-dom"; //importa o useNavigate do react-router-dom;
 import { PedidosContext } from "../../context/pedidosContext";
@@ -8,6 +11,10 @@ function Default() {
   const [menuAberto, setMenuAberto] = useState(false); //cria a variavel menuAberto para determinar se a irá apresentar o menu de usuario;
   const navigator = useNavigate(); // Hook para navegação
   const { login, setLogin } = useContext(PedidosContext);
+
+  // Estado para controlar a exibição do componente ConfigUser e UserInfo
+  const [configUser, setConfigUser] = useState(false);
+  const [userInfo, setUserInfo] = useState(false);
 
   //função toggleMenu para identificar quando houver a interação;
   const toggleMenu = () => {
@@ -22,6 +29,24 @@ function Default() {
     console.log("Usuário deslogado", login);
   };
 
+  const handleConfig = () => {
+    setConfigUser(true);
+    setMenuAberto(false);
+  };
+
+  const closeConfig = () => {
+    setConfigUser(false);
+  };
+
+  const handleUserInfo = () => {
+    setUserInfo(true);
+    setMenuAberto(false);
+  };
+
+  const closeUserInfo = () => {
+    setUserInfo(false);
+  };
+
   return (
     //header será a função pai da pagina
     <header>
@@ -33,8 +58,19 @@ function Default() {
         {menuAberto && (
           <div id="menu-interativo">
             <form className="form-menu">
-              <input type="button" id="meu-perfil" value="Meu Perfil" />
-              <input type="button" id="config" value="Configurações" />
+              <input
+                type="button"
+                id="meu-perfil"
+                value="Meu Perfil"
+                onClick={handleUserInfo}
+              />
+              <input
+                type="button"
+                id="config"
+                value="Configurações"
+                onClick={handleConfig}
+              />
+
               <input
                 type="button"
                 id="sair"
@@ -45,6 +81,8 @@ function Default() {
           </div>
         )}
       </div>
+      {configUser && <ConfigUser onClose={closeConfig} />}
+      {userInfo && <UserInfo onClose={closeUserInfo} />}
     </header>
   );
 }

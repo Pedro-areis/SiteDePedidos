@@ -10,6 +10,8 @@ export function PedidosProvider({ children }) {
 
   const [login, setLogin] = useState(false);
 
+  const [user, setUser] = useState([]);
+
   const [produto, setProduto] = useState([]);
   const [pedidos, setPedidos] = useState([]);
   const [pedidosHistorico, setPedidosHistorico] = useState([]);
@@ -60,7 +62,7 @@ export function PedidosProvider({ children }) {
       const id = Number(localStorage.getItem("pedido_id"));
 
       console.log("ID do pedido no localStorage:", id);
-      
+
       await api.put(`/historico/${id}`);
 
       setPedidos((prevPedidos) =>
@@ -72,6 +74,16 @@ export function PedidosProvider({ children }) {
       console.log("Sucesso!!!!", id);
     } catch (err) {
       console.error("Erro ao finalizar pedido!", err);
+    }
+  };
+
+  const getUserById = async () => {
+    try {
+      const response = await api.get("/user");
+      setUser(response.data);
+      console.log("Dados do usuário:", response.data);
+    } catch (err) {
+      console.error("Erro ao buscar usuário:", err);
     }
   };
 
@@ -90,6 +102,8 @@ export function PedidosProvider({ children }) {
         login,
         setIdUsuario,
         idUsuario,
+        getUserById,
+        user,
       }}
     >
       {children}

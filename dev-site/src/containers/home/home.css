@@ -33,6 +33,7 @@
   display: flex;
   width: 100%;
   height: 300px;
+  flex-wrap: wrap;
   flex-direction: row;
   justify-content: center;
   padding-right: 17px;
@@ -41,7 +42,7 @@
 .pedidosDia article {
   display: flex;
   flex-direction: row;
-  width: 500px;
+  width: 450px;
   height: 250px;
   background-color: rgba(146, 104, 104, 1);
   margin: 10px;
