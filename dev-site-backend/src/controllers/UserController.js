@@ -79,6 +79,19 @@ function autenticarToken(req, res, next) {
   }
 }
 
+async function getProdutosById(req, res) {
+  const { id } = req.params;
+  try {
+    const [rows] = await conection.query(
+      "SELECT * FROM produtos WHERE id = ?",
+      [id]
+    );
+    res.status(202).json(rows[0]);
+  } catch (err) {
+    res.status(502).json(err);
+  }
+}
+
 // Função para obter todos os produtos disponíveis no restaurante;
 async function getProdutos(req, res) {
   try {
@@ -232,6 +245,40 @@ async function getUserById(req, res) {
   }
 }
 
+async function updateItem(req, res) {
+  const { id } = req.params;
+  const { nome, valor, descricao } = req.body;
+
+  try {
+    if (req.file) {
+      const [result] = await conection.query(
+        "UPDATE produtos SET nome = ?, valor = ?, descricao = ?, imagem = ? WHERE id = ?",
+        [nome, valor, descricao, req.file.buffer, id]
+      );
+
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ message: "Erro ao atualizar o pedido" });
+      }
+
+      res.status(200).json({ message: "Item atualizado no banco de dados" });
+    } else {
+      const [result] = await conection.query(
+        "UPDATE produtos SET nome = ?, valor = ?, descricao = ? WHERE id = ?",
+        [nome, valor, descricao, id]
+      );
+
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ message: "Erro ao atualizar o pedido" });
+      }
+
+      res.status(200).json({ message: "Item atualizado no banco de dados" });
+    }
+  } catch (err) {
+    console.error("ERRO NO UPDATE:", err);
+    res.status(500).json(err);
+  }
+}
+
 export {
   getProdutos,
   getImagem,
@@ -244,4 +291,6 @@ export {
   validarUser,
   autenticarToken,
   getUserById,
+  getProdutosById,
+  updateItem,
 };

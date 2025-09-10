@@ -15,12 +15,14 @@ export function PedidosProvider({ children }) {
   const [produto, setProduto] = useState([]);
   const [pedidos, setPedidos] = useState([]);
   const [pedidosHistorico, setPedidosHistorico] = useState([]);
+  const [produtoById, setProdutoById] = useState([]);
   // Função para buscar os produtos da API
 
   const getProdutos = async () => {
     try {
       const response = await api.get("/produtosDB");
       setProduto(response.data);
+      console.log(produto);
     } catch (err) {
       console.error("Erro ao buscar produtos:", err);
     }
@@ -87,6 +89,17 @@ export function PedidosProvider({ children }) {
     }
   };
 
+  const getProdutosById = async (id) => {
+    try {
+      const response = await api.get(`/produto/${id}`);
+      setProdutoById(response.data);
+      console.log("Dados do produto: ", response.data);
+    } catch (error) {
+      console.log("Erro ao buscar o produto: ", error);
+    }
+  };
+
+
   return (
     <PedidosContext.Provider
       value={{
@@ -104,6 +117,8 @@ export function PedidosProvider({ children }) {
         idUsuario,
         getUserById,
         user,
+        getProdutosById,
+        produtoById,
       }}
     >
       {children}

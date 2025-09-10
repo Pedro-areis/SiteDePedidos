@@ -6,12 +6,12 @@ import EditarProduto from "./editar_produto/editar_produto";
 function EditItens() {
   const { getProdutos, produto } = useContext(PedidosContext);
   const [updateProduto, setUpdateProduto] = useState(false);
-
   useEffect(() => {
     getProdutos();
   }, []);
 
-  const handleEditProduto = () => {
+  const handleEditProduto = (id) => {
+    localStorage.setItem("produto_id", id);
     setUpdateProduto(true);
   };
 
@@ -45,14 +45,11 @@ function EditItens() {
                 </h3>
               </div>
               <div className="buttom-edit">
-                <button onClick={handleEditProduto}>
+                <button onClick={() => handleEditProduto(produto.id)}>
                   <img src="src/assets/img-editar.png" alt="editar" />
                 </button>
                 <button>
-                  <img
-                    src="src/assets/img-excluir.png"
-                    alt="remover-de-promo"
-                  />
+                  <img src="src/assets/star-icon.png" alt="remover-de-promo" />
                 </button>
               </div>
             </article>
