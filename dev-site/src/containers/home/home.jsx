@@ -6,14 +6,15 @@ import { PedidosContext } from "../../context/pedidosContext";
 
 //função que cria os metodos do componente home;
 function Home() {
-  const { getProdutos, produto } = useContext(PedidosContext);
+  const { getProdutos, getProdutosByType, produtoByType } =
+    useContext(PedidosContext);
   const [counts, setCounts] = useState([]); //armazena a quantidade dos produtos selecionado;
   const [valorCarrinho, setValorCarrinho] = useState([]); //armazena a quantidade de itens no carrinho;
   const [itensSelecionados, setItensSelecionados] = useState([]); //armazena os itens selecionados para o carrinho;
 
-
   useEffect(() => {
     getProdutos();
+    getProdutosByType();
   }, []);
 
   const handleCountChange = (index, value) => {
@@ -25,7 +26,7 @@ function Home() {
   const addProdutos = () => {
     const newItens = [];
 
-    produto.forEach((item, index) => {
+    produtoByType.forEach((item, index) => {
       if (counts[index] > 0) {
         newItens.push({
           nome: item.nome,
@@ -58,11 +59,6 @@ function Home() {
       </button>
     );
   };
-
-  useEffect(() => {
-    setCounts(Array(produto.length).fill(0));
-    setValorCarrinho(Array(produto.length).fill(0));
-  }, [produto]);
 
   const postPedidos = async () => {
     const pedidoId = localStorage.getItem("pedido_id");
@@ -100,6 +96,11 @@ function Home() {
     }
   };
 
+  useEffect(() => {
+    setCounts(Array(produtoByType.length).fill(0));
+    setValorCarrinho(Array(produtoByType.length).fill(0));
+  }, [produtoByType]);
+
   return (
     <div className="home">
       <img
@@ -111,7 +112,7 @@ function Home() {
         <h2>Promoções do dia</h2>
       </div>
       <section className="pedidosDia">
-        {produto.map((produto, index) => (
+        {produtoByType.map((produto, index) => (
           <article key={index}>
             <div className="img-promo">
               <h3>{produto.nome}</h3>

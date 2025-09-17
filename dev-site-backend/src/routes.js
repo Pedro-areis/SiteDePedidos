@@ -14,12 +14,15 @@ import {
   getUserById,
   getProdutosById,
   updateItem,
+  updateType,
+  getProdutosByType,
 } from "./controllers/UserController.js";
 
 const routes = Router();
 const upload = multer();
 
 routes.get("/produtosDB", getProdutos);
+routes.get("/produtosDB/tipo", getProdutosByType);
 routes.get("/produtosDB/imagem/:id", getImagem);
 routes.get("/carrinho", autenticarToken, getPedidos);
 routes.get("/historico", autenticarToken, getHistorico);
@@ -31,6 +34,7 @@ routes.delete("/carrinho/:id", deleteItem);
 
 routes.put("/historico/:pedido_id", updateStatus);
 routes.put("/produto/att/:id", upload.single("imagem"), updateItem);
+routes.put("/produtos/tipo/:id", updateType);
 
 //rotas de usuário
 routes.post("/createUser", createUser);

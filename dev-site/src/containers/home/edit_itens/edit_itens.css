@@ -61,6 +61,25 @@
   font-size: 16px;
 }
 
+.invisible {
+  display: flex;
+  width: 250px;
+  height: 30px;
+  margin-top: 10px;
+  background-color: rgba(146, 104, 104, 1);
+  font-size: 14px;
+  border: 1px solid rgba(49, 28, 28, 1);
+  border-radius: 5px;
+  padding: 5px;
+  color: rgb(238, 44, 10);
+}
+
+.invisible p {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(146, 104, 104, 1);
+}
+
 .buttom-edit {
   width: 200px;
   align-items: center;
@@ -83,4 +102,53 @@
   width: 100%;
   height: 100%;
   background-color: rgba(146, 104, 104, 1);
+}
+
+.buttom-edit-itens-not_fav {
+  width: 150px;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(146, 104, 104, 1);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.buttom-edit-itens-not_fav button {
+  width: 35px;
+  height: 35px;
+  margin: 10px;
+  cursor: pointer;
+  border: none;
+  background-color: rgba(146, 104, 104, 1);
+}
+
+.buttom-edit-itens-not_fav img {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(146, 104, 104, 1);
+}
+
+.titulo {
+  width: 100%;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(146, 104, 104, 1);
+  flex-direction: row;
+}
+
+.titulo button {
+  width: 185px;
+  height: 50px;
+  border: 0.5px solid rgba(146, 104, 104, 1);
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.titulo button:hover {
+  background-color: rgba(146, 104, 104, 1);
+  border: 1px solid rgba(49, 28, 28, 1);
 }

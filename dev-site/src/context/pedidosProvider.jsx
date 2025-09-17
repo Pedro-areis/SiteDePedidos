@@ -12,10 +12,13 @@ export function PedidosProvider({ children }) {
 
   const [user, setUser] = useState([]);
 
+  const [produtoByType, setProdutoByType] = useState([]);
   const [produto, setProduto] = useState([]);
   const [pedidos, setPedidos] = useState([]);
   const [pedidosHistorico, setPedidosHistorico] = useState([]);
   const [produtoById, setProdutoById] = useState([]);
+  const [type, setType] = useState("");
+
   // Função para buscar os produtos da API
 
   const getProdutos = async () => {
@@ -23,6 +26,16 @@ export function PedidosProvider({ children }) {
       const response = await api.get("/produtosDB");
       setProduto(response.data);
       console.log(produto);
+    } catch (err) {
+      console.error("Erro ao buscar produtos:", err);
+    }
+  };
+
+  const getProdutosByType = async () => {
+    try {
+      const response = await api.get("/produtosDB/tipo");
+      setProdutoByType(response.data);
+      console.log(produtoByType);
     } catch (err) {
       console.error("Erro ao buscar produtos:", err);
     }
@@ -60,9 +73,8 @@ export function PedidosProvider({ children }) {
   };
 
   const updateStatus = async () => {
+    const id = localStorage.getItem("pedido_id");
     try {
-      const id = Number(localStorage.getItem("pedido_id"));
-
       console.log("ID do pedido no localStorage:", id);
 
       await api.put(`/historico/${id}`);
@@ -74,6 +86,7 @@ export function PedidosProvider({ children }) {
       localStorage.removeItem("pedido_id");
 
       console.log("Sucesso!!!!", id);
+      getPedidos();
     } catch (err) {
       console.error("Erro ao finalizar pedido!", err);
     }
@@ -99,6 +112,42 @@ export function PedidosProvider({ children }) {
     }
   };
 
+  const updateType = async (id, tipo) => {
+    if (tipo == "not_fav" || tipo == "invisible") {
+      tipo = "fav";
+    } else {
+      tipo = "not_fav";
+    }
+
+    try {
+      const response = await api.put(`/produtos/tipo/${id}`, { tipo: tipo });
+      console.log("Dados do produto: ", response.data);
+      getProdutosByType();
+      getProdutos();
+    } catch (error) {
+      console.log("Erro ao buscar o produto: ", error);
+    }
+  };
+
+  const invisibleProduct = async (id, tipo) => {
+    if (tipo == "not_fav") {
+      tipo = "invisible";
+    } else {
+      tipo = "not_fav";
+    }
+
+    try {
+      const response = await api.put(`/produtos/tipo/${id}`, { tipo: tipo });
+
+      setType("Produto invisivel para o cliente!");
+
+      console.log("Dados do produto: ", response.data);
+      getProdutosByType();
+      getProdutos();
+    } catch (error) {
+      console.log("Erro ao buscar o produto: ", error);
+    }
+  };
 
   return (
     <PedidosContext.Provider
@@ -119,6 +168,11 @@ export function PedidosProvider({ children }) {
         user,
         getProdutosById,
         produtoById,
+        updateType,
+        getProdutosByType,
+        produtoByType,
+        type,
+        invisibleProduct,
       }}
     >
       {children}

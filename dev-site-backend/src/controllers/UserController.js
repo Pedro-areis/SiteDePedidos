@@ -95,7 +95,20 @@ async function getProdutosById(req, res) {
 // Função para obter todos os produtos disponíveis no restaurante;
 async function getProdutos(req, res) {
   try {
-    const [rows] = await conection.query("SELECT * FROM produtos");
+    const [rows] = await conection.query(
+      "SELECT * FROM produtos WHERE tipo IN ('not_fav', 'invisible')"
+    );
+    res.status(200).json(rows);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+}
+
+async function getProdutosByType(req, res) {
+  try {
+    const [rows] = await conection.query(
+      "SELECT * FROM produtos WHERE tipo = 'fav'"
+    );
     res.status(200).json(rows);
   } catch (err) {
     res.status(500).json(err);
@@ -279,6 +292,29 @@ async function updateItem(req, res) {
   }
 }
 
+async function updateType(req, res) {
+  const { id } = req.params;
+  const tipo = req.body.tipo;
+
+  try {
+    const [result] = await conection.query(
+      "UPDATE produtos SET tipo = ? WHERE id = ?",
+      [tipo, id]
+    );
+
+    if (result.affectedRows === 0) {
+      return res
+        .status(404)
+        .json({ message: "Erro ao atualizar o tipo do pedido" });
+    }
+
+    res.status(200).json({ message: "Item atualizado no banco de dados" });
+  } catch (err) {
+    console.error("ERRO NO UPDATE:", err);
+    res.status(500).json(err);
+  }
+}
+
 export {
   getProdutos,
   getImagem,
@@ -293,4 +329,6 @@ export {
   getUserById,
   getProdutosById,
   updateItem,
+  updateType,
+  getProdutosByType,
 };
