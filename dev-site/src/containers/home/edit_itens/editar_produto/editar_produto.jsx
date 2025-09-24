@@ -9,9 +9,24 @@ function EditarProduto({ onClose }) {
   const [nomeAtualizado, setNomeAtualizado] = useState("");
   const [valorAtualizado, setValorAtualizado] = useState("");
   const [descAtualizada, setDescAtualizada] = useState("");
+  const [categoriaAtualizada, setCategoriaAtualizada] = useState("");
   const [imgAtualizada, setImgAtualizada] = useState(null);
 
   const item = produtoById;
+
+  const limparCampos = () => {
+    const limparInputNome = document.getElementById("nm-produto");
+    limparInputNome.value = "";
+
+    const limparInputImagem = document.getElementById("alt-img");
+    limparInputImagem.value = null;
+
+    const limparInputDesc = document.getElementById("desc");
+    limparInputDesc.value = "";
+
+    const limparInputValor = document.getElementById("price");
+    limparInputValor.value = "";
+  };
 
   const updateItem = async (e) => {
     e.preventDefault();
@@ -23,6 +38,7 @@ function EditarProduto({ onClose }) {
     formData.append("nome", nomeAtualizado);
     formData.append("valor", valorFormatado);
     formData.append("descricao", descAtualizada);
+    formData.append("categoria", categoriaAtualizada);
 
     if (imgAtualizada) {
       formData.append("imagem", imgAtualizada);
@@ -34,6 +50,7 @@ function EditarProduto({ onClose }) {
         },
       });
       alert("Produto atualizado!");
+      limparCampos();
 
       console.log("Pedido atualizado", response.data);
     } catch (err) {
@@ -94,6 +111,20 @@ function EditarProduto({ onClose }) {
               placeholder={item.descricao}
               onChange={(e) => setDescAtualizada(e.target.value)}
             ></textarea>
+            <span>Categoria:</span>
+            <div className="categoria">
+              <select
+                name="categoria"
+                id="categoria"
+                onChange={(e) => setCategoriaAtualizada(e.target.value)}
+                value={categoriaAtualizada}
+              >
+                <option value="">--Selecione a categoria--</option>
+                <option value="prato_principal">Prato Principal</option>
+                <option value="bebida">Bebida</option>
+                <option value="sobremesa">Sobremesa</option>
+              </select>
+            </div>
             <span>Preço:</span>
             <input
               type="text"

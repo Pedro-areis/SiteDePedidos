@@ -16,6 +16,8 @@ import {
   updateItem,
   updateType,
   getProdutosByType,
+  adiconarNovoProduto,
+  deleteProduto,
 } from "./controllers/UserController.js";
 
 const routes = Router();
@@ -29,8 +31,10 @@ routes.get("/historico", autenticarToken, getHistorico);
 routes.get("/produto/:id", getProdutosById);
 
 routes.post("/pedidos", postPedidos);
+routes.post("/novo_produto", upload.single("imagem"), adiconarNovoProduto);
 
 routes.delete("/carrinho/:id", deleteItem);
+routes.delete("/produto/:id", deleteProduto);
 
 routes.put("/historico/:pedido_id", updateStatus);
 routes.put("/produto/att/:id", upload.single("imagem"), updateItem);

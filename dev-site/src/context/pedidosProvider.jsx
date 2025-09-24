@@ -35,7 +35,6 @@ export function PedidosProvider({ children }) {
     try {
       const response = await api.get("/produtosDB/tipo");
       setProdutoByType(response.data);
-      console.log(produtoByType);
     } catch (err) {
       console.error("Erro ao buscar produtos:", err);
     }
@@ -140,10 +139,9 @@ export function PedidosProvider({ children }) {
       const response = await api.put(`/produtos/tipo/${id}`, { tipo: tipo });
 
       setType("Produto invisivel para o cliente!");
+      getProdutos();
 
       console.log("Dados do produto: ", response.data);
-      getProdutosByType();
-      getProdutos();
     } catch (error) {
       console.log("Erro ao buscar o produto: ", error);
     }

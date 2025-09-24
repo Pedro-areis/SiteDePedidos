@@ -207,6 +207,22 @@ async function deleteItem(req, res) {
   }
 }
 
+async function deleteProduto(req, res) {
+  const { id } = req.params;
+  try {
+    const [result] = await conection.query(
+      "DELETE FROM produtos WHERE id = ?",
+      [id]
+    );
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "Produto não encontrado" });
+    }
+    res.status(202).json({ message: "Produto deletado com sucesso" });
+  } catch (err) {
+    res.status(500).json({ message: "Erro ao deletar o produto", err });
+  }
+}
+
 async function getHistorico(req, res) {
   try {
     const userId = req.userId;
@@ -260,13 +276,13 @@ async function getUserById(req, res) {
 
 async function updateItem(req, res) {
   const { id } = req.params;
-  const { nome, valor, descricao } = req.body;
+  const { nome, valor, descricao, categoria } = req.body;
 
   try {
     if (req.file) {
       const [result] = await conection.query(
-        "UPDATE produtos SET nome = ?, valor = ?, descricao = ?, imagem = ? WHERE id = ?",
-        [nome, valor, descricao, req.file.buffer, id]
+        "UPDATE produtos SET nome = ?, valor = ?, descricao = ?, imagem = ?, categoria = ? WHERE id = ?",
+        [nome, valor, descricao, req.file.buffer, categoria, id]
       );
 
       if (result.affectedRows === 0) {
@@ -276,8 +292,8 @@ async function updateItem(req, res) {
       res.status(200).json({ message: "Item atualizado no banco de dados" });
     } else {
       const [result] = await conection.query(
-        "UPDATE produtos SET nome = ?, valor = ?, descricao = ? WHERE id = ?",
-        [nome, valor, descricao, id]
+        "UPDATE produtos SET nome = ?, valor = ?, descricao = ?, categoria = ? WHERE id = ?",
+        [nome, valor, descricao, categoria, id]
       );
 
       if (result.affectedRows === 0) {
@@ -288,6 +304,26 @@ async function updateItem(req, res) {
     }
   } catch (err) {
     console.error("ERRO NO UPDATE:", err);
+    res.status(500).json(err);
+  }
+}
+
+async function adiconarNovoProduto(req, res) {
+  const { nome, valor, descricao, categoria } = req.body;
+
+  try {
+    const [result] = await conection.query(
+      "INSERT INTO produtos (nome, valor, descricao, imagem, categoria) VALUES (?, ?, ?, ?, ?)",
+      [nome, valor, descricao, req.file.buffer, categoria]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "Erro ao atualizar o pedido" });
+    }
+
+    res.status(200).json({ message: "Item adicionado no banco de dados" });
+  } catch (err) {
+    console.error("ERRO NO POST DO PRODUTO:", err);
     res.status(500).json(err);
   }
 }
@@ -331,4 +367,6 @@ export {
   updateItem,
   updateType,
   getProdutosByType,
+  adiconarNovoProduto,
+  deleteProduto,
 };

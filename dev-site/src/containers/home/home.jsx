@@ -6,10 +6,10 @@ import { PedidosContext } from "../../context/pedidosContext";
 
 //função que cria os metodos do componente home;
 function Home() {
-  const { getProdutos, getProdutosByType, produtoByType } =
+  const { getProdutos, getProdutosByType, produtoByType, produto } =
     useContext(PedidosContext);
-  const [counts, setCounts] = useState([]); //armazena a quantidade dos produtos selecionado;
-  const [valorCarrinho, setValorCarrinho] = useState([]); //armazena a quantidade de itens no carrinho;
+  const [counts, setCounts] = useState({}); //armazena a quantidade dos produtos selecionado;
+  const [valorCarrinho, setValorCarrinho] = useState(0); //armazena a quantidade de itens no carrinho;
   const [itensSelecionados, setItensSelecionados] = useState([]); //armazena os itens selecionados para o carrinho;
 
   useEffect(() => {
@@ -17,24 +17,33 @@ function Home() {
     getProdutosByType();
   }, []);
 
-  const handleCountChange = (index, value) => {
-    const newCounts = [...counts];
-    newCounts[index] = value;
-    setCounts(newCounts);
+  const handleCountChange = (productId, value) => {
+    setCounts((prevCounts) => ({
+      ...prevCounts,
+      [productId]: value,
+    }));
   };
 
   const addProdutos = () => {
     const newItens = [];
 
-    produtoByType.forEach((item, index) => {
-      if (counts[index] > 0) {
-        newItens.push({
-          nome: item.nome,
-          valor: item.valor,
-          quantidade: counts[index],
-        });
+    const todosOsProdutos = [...produtoByType, ...produto];
+
+    for (const productId in counts) {
+      const quantidade = counts[productId];
+
+      if (quantidade > 0) {
+        const item = todosOsProdutos.find((p) => p.id == productId);
+
+        if (item) {
+          newItens.push({
+            nome: item.nome,
+            valor: item.valor,
+            quantidade: quantidade,
+          });
+        }
       }
-    });
+    }
 
     setItensSelecionados((prev) => [...prev, ...newItens]);
     console.log("Itens adicionados:", newItens);
@@ -45,14 +54,16 @@ function Home() {
       <button
         className="btn-add-carrinho"
         onClick={() => {
-          setValorCarrinho((prev) =>
-            prev.length === counts.length
-              ? prev.map((v, i) => v + (counts[i] || 0))
-              : [...counts]
-          );
           addProdutos();
-          setCounts(Array(counts.length).fill(0));
-          console.log("Valor do carrinho atualizado:", itensSelecionados);
+
+          const novosItensCount = Object.values(counts).reduce(
+            (soma, quantidade) => soma + Number(quantidade),
+            0
+          );
+
+          setValorCarrinho((prevTotal) => prevTotal + novosItensCount);
+
+          setCounts({});
         }}
       >
         Adicionar ao carrinho
@@ -80,7 +91,7 @@ function Home() {
       }
 
       setItensSelecionados([]);
-      setValorCarrinho([]);
+      setValorCarrinho(0);
 
       console.log("Pedido enviado com sucesso:", response.data);
       console.log("Lista limpa:", itensSelecionados);
@@ -97,8 +108,7 @@ function Home() {
   };
 
   useEffect(() => {
-    setCounts(Array(produtoByType.length).fill(0));
-    setValorCarrinho(Array(produtoByType.length).fill(0));
+    setCounts({});
   }, [produtoByType]);
 
   return (
@@ -112,15 +122,15 @@ function Home() {
         <h2>Promoções do dia</h2>
       </div>
       <section className="pedidosDia">
-        {produtoByType.map((produto, index) => (
-          <article key={index}>
+        {produtoByType.map((produto) => (
+          <article key={produto.id}>
             <div className="img-promo">
               <h3>{produto.nome}</h3>
               <img
                 src={`http://localhost:3000/produtosDB/imagem/${produto.id}`}
                 alt={produto.nome}
               />
-              {counts[index] >= 1 ? mostrarBotao() : null}
+              {counts[produto.id] >= 1 ? mostrarBotao() : null}
             </div>
 
             <div className="info-item">
@@ -129,19 +139,18 @@ function Home() {
                 <br />
               </p>
               <h3>
-                Valor: R${" "}
-                {counts[index] <= 1
-                  ? Number(produto.valor).toLocaleString("pt-BR", {
-                      minimumFractionDigits: 2,
-                    })
-                  : (produto.valor * counts[index]).toLocaleString("pt-BR", {
-                      minimumFractionDigits: 2,
-                    })}
+                Valor: R$
+                {(produto.valor * (counts[produto.id] || 1)).toLocaleString(
+                  "pt-BR",
+                  {
+                    minimumFractionDigits: 2,
+                  }
+                )}
               </h3>
               <div className="set-quantidade">
                 <Counter
-                  count={counts[index]}
-                  setCount={(value) => handleCountChange(index, value)}
+                  count={counts[produto.id] || 0}
+                  setCount={(value) => handleCountChange(produto.id, value)}
                 />
               </div>
             </div>
@@ -149,13 +158,146 @@ function Home() {
         ))}
       </section>
 
-      <section className="produtos-geral"></section>
+      <div className="separador">
+        <h2>Produtos gerais</h2>
+      </div>
+
+      <div className="produtos-gerais">
+        <section className="produtos">
+          <h2>Pratos Principais</h2>
+          {produto
+            .filter(
+              (produtos) =>
+                produtos.tipo === "not_fav" &&
+                produtos.categoria === "prato_principal"
+            )
+            .map((produto) => (
+              <article key={produto.id}>
+                <div className="img-promo">
+                  <h3>{produto.nome}</h3>
+                  <img
+                    src={`http://localhost:3000/produtosDB/imagem/${produto.id}`}
+                    alt={produto.nome}
+                  />
+                  {counts[produto.id] >= 1 ? mostrarBotao() : null}
+                </div>
+                <div className="info-item">
+                  <p>
+                    {produto.descricao} <br />
+                    <br />
+                  </p>
+                  <h3>
+                    Valor: R$
+                    {(produto.valor * (counts[produto.id] || 1)).toLocaleString(
+                      "pt-BR",
+                      {
+                        minimumFractionDigits: 2,
+                      }
+                    )}
+                  </h3>
+                  <div className="set-quantidade">
+                    <Counter
+                      count={counts[produto.id] || 0}
+                      setCount={(value) => handleCountChange(produto.id, value)}
+                    />
+                  </div>
+                </div>
+              </article>
+            ))}
+        </section>
+        <section className="produtos">
+          <h2>Sobremasas</h2>
+          {produto
+            .filter(
+              (produtos) =>
+                produtos.tipo === "not_fav" &&
+                produtos.categoria === "sobremesa"
+            )
+            .map((produto) => (
+              <article key={produto.id}>
+                <div className="img-promo">
+                  <h3>{produto.nome}</h3>
+                  <img
+                    src={`http://localhost:3000/produtosDB/imagem/${produto.id}`}
+                    alt={produto.nome}
+                  />
+                  {counts[produto.id] >= 1 ? mostrarBotao() : null}
+                </div>
+                <div className="info-item">
+                  <p>
+                    {produto.descricao} <br />
+                    <br />
+                  </p>
+                  <h3>
+                    Valor: R$
+                    {(produto.valor * (counts[produto.id] || 1)).toLocaleString(
+                      "pt-BR",
+                      {
+                        minimumFractionDigits: 2,
+                      }
+                    )}
+                  </h3>
+                  <div className="set-quantidade">
+                    <Counter
+                      count={counts[produto.id] || 0}
+                      setCount={(value) => handleCountChange(produto.id, value)}
+                    />
+                  </div>
+                </div>
+              </article>
+            ))}
+
+          <div className="bebidas">
+            <h2>Bebidas</h2>
+            {produto
+              .filter(
+                (produtos) =>
+                  produtos.tipo === "not_fav" &&
+                  produtos.categoria === "bebida"
+              )
+              .map((produto) => (
+                <article key={produto.id}>
+                  <div className="img-promo">
+                    <h3>{produto.nome}</h3>
+                    <img
+                      src={`http://localhost:3000/produtosDB/imagem/${produto.id}`}
+                      alt={produto.nome}
+                    />
+                    {counts[produto.id] >= 1 ? mostrarBotao() : null}
+                  </div>
+                  <div className="info-item">
+                    <p>
+                      {produto.descricao} <br />
+                      <br />
+                    </p>
+                    <h3>
+                      Valor: R$
+                      {(
+                        produto.valor * (counts[produto.id] || 1)
+                      ).toLocaleString("pt-BR", {
+                        minimumFractionDigits: 2,
+                      })}
+                    </h3>
+                    <div className="set-quantidade">
+                      <Counter
+                        count={counts[produto.id] || 0}
+                        setCount={(value) =>
+                          handleCountChange(produto.id, value)
+                        }
+                      />
+                    </div>
+                  </div>
+                </article>
+              ))}
+          </div>
+        </section>
+      </div>
       <div className="botao-carrinho">
         <button onClick={postPedidos}>
           <img src="src/assets/img-carrinho.png" alt="img_carrinho" />
         </button>
         <div className="indice-carrinho">
-          <p>{valorCarrinho.reduce((total, count) => total + count, 0)}</p>
+          <p>{valorCarrinho}</p>
         </div>
       </div>
     </div>
