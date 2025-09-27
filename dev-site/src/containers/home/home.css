@@ -11,8 +11,8 @@
   width: 100%;
   height: 300px;
   object-fit: cover;
-  display: block;
   object-position: center;
+  display: block;
 }
 
 .inicio {
@@ -38,14 +38,13 @@
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: center;
-  padding-right: 17px;
 }
 
 .pedidosDia article {
   display: flex;
   flex-direction: row;
   width: 450px;
-  height: 250px;
+  height: 270px;
   background-color: rgba(146, 104, 104, 1);
   margin: 10px;
   border-radius: 10px;
@@ -80,16 +79,15 @@
 
 .img-promo button {
   display: flex;
-  width: 125px;
-  height: 33px;
-  margin-top: auto;
+  width: 130px;
+  height: 40px;
   background-color: rgba(146, 104, 104, 1);
-  border: none;
   border-radius: 20px;
   border: 1px solid rgba(49, 28, 28, 1);
   font-size: 10px;
   align-items: center;
   justify-content: center;
+  margin-top: auto;
   cursor: pointer;
 }
 
@@ -103,14 +101,14 @@
   justify-content: center;
   flex-direction: column;
   width: 200px;
-  height: 200px;
+  height: 230px;
   padding: 10px;
   background-color: rgba(146, 104, 104, 1);
 }
 
 .info-item p {
   width: 160px;
-  height: 80px;
+  height: 120px;
   font-size: 13px;
   margin-top: 15px;
   background-color: rgba(146, 104, 104, 1);
@@ -209,25 +207,94 @@
 .produtos-gerais {
   width: 100%;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.produtos {
-  width: 50%;
-  display: flex;
-  background-color: rgba(146, 104, 104, 1);
-  margin: 20px;
   flex-direction: column;
-  border-radius: 10px;
-}
-
-.produtos-gerais h2 {
-  background-color: rgba(146, 104, 104, 1);
-  margin: 10px;
-  text-align: center;
+  justify-content: space-between;
+  padding-bottom: 120px;
+  border-bottom: 1px solid white;
 }
 
 .bebidas {
   background-color: rgba(146, 104, 104, 1);
+}
+
+.img-produtos {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  height: 100%;
+  border-radius: 10px;
+  padding: 5px;
+  margin-right: 20px;
+  background-color: rgba(146, 104, 104, 1);
+  border-radius: 20px;
+}
+
+.img-produtos img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  flex-shrink: 0;
+  object-position: 50% 76%;
+  border-radius: 20px;
+}
+
+.img-produtos h3 {
+  font-size: 15px;
+  background-color: rgba(146, 104, 104, 1);
+  margin-bottom: 10px;
+}
+
+.img-produtos button {
+  display: flex;
+  width: 130px;
+  height: 40px;
+  background-color: rgba(146, 104, 104, 1);
+  border-radius: 20px;
+  border: 1px solid rgba(49, 28, 28, 1);
+  font-size: 10px;
+  align-items: center;
+  justify-content: center;
+  margin-top: auto;
+  cursor: pointer;
+}
+
+.img-produtos button:hover {
+  background-color: rgba(49, 28, 28, 1);
+}
+
+.containe-home {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  border-radius: 10px;
+  justify-content: space-between;
+}
+
+.containe-home article {
+  width: 450px;
+  height: 270px;
+  display: flex;
+  flex-direction: row;
+  background-color: rgba(146, 104, 104, 1);
+  padding: 5px;
+  margin: 10px;
+  border-radius: 10px;
+}
+
+.containe-home h2 {
+  width: 100%;
+  height: 40px;
+  font-size: 25px;
+  background-color: rgba(146, 104, 104, 1);
+  margin: 10px;
+  text-align: center;
+  line-height: 40px;
+  border-radius: 10px;
+}
+
+.containe-home p {
+  font-size: 13px;
+  background-color: rgba(146, 104, 104, 1);
+  text-align: center;
 }

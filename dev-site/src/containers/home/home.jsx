@@ -52,7 +52,6 @@ function Home() {
   const mostrarBotao = () => {
     return (
       <button
-        className="btn-add-carrinho"
         onClick={() => {
           addProdutos();
 
@@ -163,8 +162,8 @@ function Home() {
       </div>
 
       <div className="produtos-gerais">
-        <section className="produtos">
-          <h2>Pratos Principais</h2>
+        <div className="containe-home">
+          <h2>Pratos Principais (Para matar a fome do Pedrinho)</h2>
           {produto
             .filter(
               (produtos) =>
@@ -173,7 +172,7 @@ function Home() {
             )
             .map((produto) => (
               <article key={produto.id}>
-                <div className="img-promo">
+                <div className="img-produtos">
                   <h3>{produto.nome}</h3>
                   <img
                     src={`http://localhost:3000/produtosDB/imagem/${produto.id}`}
@@ -204,9 +203,9 @@ function Home() {
                 </div>
               </article>
             ))}
-        </section>
-        <section className="produtos">
-          <h2>Sobremasas</h2>
+        </div>
+        <div className="containe-home">
+          <h2>Sobremesas (Os quitutes que a Cuca não resiste)</h2>
           {produto
             .filter(
               (produtos) =>
@@ -215,7 +214,7 @@ function Home() {
             )
             .map((produto) => (
               <article key={produto.id}>
-                <div className="img-promo">
+                <div className="img-produtos">
                   <h3>{produto.nome}</h3>
                   <img
                     src={`http://localhost:3000/produtosDB/imagem/${produto.id}`}
@@ -246,51 +245,48 @@ function Home() {
                 </div>
               </article>
             ))}
-
-          <div className="bebidas">
-            <h2>Bebidas</h2>
-            {produto
-              .filter(
-                (produtos) =>
-                  produtos.tipo === "not_fav" &&
-                  produtos.categoria === "bebida"
-              )
-              .map((produto) => (
-                <article key={produto.id}>
-                  <div className="img-promo">
-                    <h3>{produto.nome}</h3>
-                    <img
-                      src={`http://localhost:3000/produtosDB/imagem/${produto.id}`}
-                      alt={produto.nome}
-                    />
-                    {counts[produto.id] >= 1 ? mostrarBotao() : null}
-                  </div>
-                  <div className="info-item">
-                    <p>
-                      {produto.descricao} <br />
-                      <br />
-                    </p>
-                    <h3>
-                      Valor: R$
-                      {(
-                        produto.valor * (counts[produto.id] || 1)
-                      ).toLocaleString("pt-BR", {
+        </div>
+        <div className="containe-home">
+          <h2>Bebidas</h2>
+          {produto
+            .filter(
+              (produtos) =>
+                produtos.tipo === "not_fav" && produtos.categoria === "bebida"
+            )
+            .map((produto) => (
+              <article key={produto.id}>
+                <div className="img-produtos">
+                  <h3>{produto.nome}</h3>
+                  <img
+                    src={`http://localhost:3000/produtosDB/imagem/${produto.id}`}
+                    alt={produto.nome}
+                  />
+                  {counts[produto.id] >= 1 ? mostrarBotao() : null}
+                </div>
+                <div className="info-item">
+                  <p>
+                    {produto.descricao} <br />
+                    <br />
+                  </p>
+                  <h3>
+                    Valor: R$
+                    {(produto.valor * (counts[produto.id] || 1)).toLocaleString(
+                      "pt-BR",
+                      {
                         minimumFractionDigits: 2,
-                      })}
-                    </h3>
-                    <div className="set-quantidade">
-                      <Counter
-                        count={counts[produto.id] || 0}
-                        setCount={(value) =>
-                          handleCountChange(produto.id, value)
-                        }
-                      />
-                    </div>
+                      }
+                    )}
+                  </h3>
+                  <div className="set-quantidade">
+                    <Counter
+                      count={counts[produto.id] || 0}
+                      setCount={(value) => handleCountChange(produto.id, value)}
+                    />
                   </div>
-                </article>
-              ))}
-          </div>
-        </section>
+                </div>
+              </article>
+            ))}
+        </div>
       </div>
       <div className="botao-carrinho">
         <button onClick={postPedidos}>

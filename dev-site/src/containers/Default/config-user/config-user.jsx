@@ -1,13 +1,30 @@
 import "./config-user.css";
-import { useContext, useEffect } from "react";
+
+import { useState, useContext, useEffect } from "react";
 import { PedidosContext } from "../../../context/pedidosContext";
 
 function ConfigUser({ onClose }) {
-  const { getUserById, user } = useContext(PedidosContext);
+  const { getUserById, user, updateCredenciais } = useContext(PedidosContext);
+  const [newEmail, setNewEmail] = useState("");
+  const [newPassword, setNewPassword] = useState("");
 
   useEffect(() => {
     getUserById();
   }, []);
+
+  const limparCampos = () => {
+    const limparInputEmail = document.getElementById("email");
+    limparInputEmail.value = "";
+
+    const limparInputSenha = document.getElementById("new_password");
+    limparInputSenha.value = "";
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    updateCredenciais(newEmail, newPassword);
+    limparCampos();
+  };
 
   return (
     <div className="container-config-user">
@@ -24,14 +41,25 @@ function ConfigUser({ onClose }) {
         <div className="menu-config">
           <form>
             <span className="span-form">E-mail</span>
-            <input type="email" name="email" value={user.email} />
+            <input
+              type="email"
+              name="email"
+              id="email"
+              placeholder={user.email}
+              onChange={(e) => setNewEmail(e.target.value)}
+            />
             <br />
-            
             <span className="span-form">Nova senha</span>
-            <input type="text" name="new_password" />
+            <input
+              type="password"
+              name="new_password"
+              id="new_password"
+              onChange={(e) => setNewPassword(e.target.value)}
+            />
             <br />
-
-            <button type="submit">Salvar</button>
+            <button type="submit" onClick={handleSubmit}>
+              Salvar
+            </button>
           </form>
         </div>
       </div>

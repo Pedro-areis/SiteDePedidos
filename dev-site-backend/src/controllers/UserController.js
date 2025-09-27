@@ -253,6 +253,7 @@ async function updateStatus(req, res) {
     }
     res.status(200).json({ message: "Pedido enviado para o historico" });
   } catch (err) {
+    console.error("ERRO NO UPDATE:", err);
     res.status(500).json(err);
   }
 }
@@ -278,33 +279,53 @@ async function updateItem(req, res) {
   const { id } = req.params;
   const { nome, valor, descricao, categoria } = req.body;
 
+  const updateFields = [];
+  const params = [];
+
+  if (nome != null && nome !== "") {
+    updateFields.push("nome = ?");
+    params.push(nome);
+  }
+  if (valor != null && valor !== "") {
+    updateFields.push("valor = ?");
+    params.push(valor);
+  }
+  if (descricao != null && descricao !== "") {
+    updateFields.push("descricao = ?");
+    params.push(descricao);
+  }
+  if (categoria != null && categoria !== "") {
+    updateFields.push("categoria = ?");
+    params.push(categoria);
+  }
+  if (req.file) {
+    updateFields.push("imagem = ?");
+    params.push(req.file.buffer);
+  }
+
+  if (updateFields.length === 0) {
+    return res
+      .status(400)
+      .json({ message: "Nenhum campo para atualizar foi fornecido." });
+  }
+
+  params.push(id);
+
+  const sql = `UPDATE produtos SET ${updateFields.join(", ")} WHERE id = ?`;
+
   try {
-    if (req.file) {
-      const [result] = await conection.query(
-        "UPDATE produtos SET nome = ?, valor = ?, descricao = ?, imagem = ?, categoria = ? WHERE id = ?",
-        [nome, valor, descricao, req.file.buffer, categoria, id]
-      );
+    const [result] = await conection.query(sql, params);
 
-      if (result.affectedRows === 0) {
-        return res.status(404).json({ message: "Erro ao atualizar o pedido" });
-      }
-
-      res.status(200).json({ message: "Item atualizado no banco de dados" });
-    } else {
-      const [result] = await conection.query(
-        "UPDATE produtos SET nome = ?, valor = ?, descricao = ?, categoria = ? WHERE id = ?",
-        [nome, valor, descricao, categoria, id]
-      );
-
-      if (result.affectedRows === 0) {
-        return res.status(404).json({ message: "Erro ao atualizar o pedido" });
-      }
-
-      res.status(200).json({ message: "Item atualizado no banco de dados" });
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "Produto não encontrado." });
     }
+
+    res
+      .status(200)
+      .json({ message: "Item atualizado com sucesso no banco de dados." });
   } catch (err) {
     console.error("ERRO NO UPDATE:", err);
-    res.status(500).json(err);
+    res.status(500).json({ message: "Erro interno no servidor.", error: err });
   }
 }
 
@@ -351,6 +372,31 @@ async function updateType(req, res) {
   }
 }
 
+async function updateCredenciais(req, res) {
+  const user_id = req.userId;
+  const { email, senha } = req.body;
+
+  try {
+    if (!senha) return res.status(400).json({ error: "Senha não fornecida" });
+
+    const hash = await bcrypt.hash(senha, 10);
+
+    const [result] = await conection.query(
+      "UPDATE users SET email = ?, senha_hash = ? WHERE id = ?",
+      [email, hash, user_id]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "Erro ao atualizar o pedido" });
+    }
+
+    res.status(200).json({ message: "Item atualizado no banco de dados" });
+  } catch (err) {
+    console.error("ERRO NO UPDATE:", err);
+    res.status(500).json(err);
+  }
+}
+
 export {
   getProdutos,
   getImagem,
@@ -369,4 +415,5 @@ export {
   getProdutosByType,
   adiconarNovoProduto,
   deleteProduto,
+  updateCredenciais,
 };

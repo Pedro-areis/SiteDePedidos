@@ -147,6 +147,20 @@ export function PedidosProvider({ children }) {
     }
   };
 
+  const updateCredenciais = async (email, senha) => {
+    try {
+      const response = await api.put("/user", { email, senha });
+      console.log("Dados do usuário: ", response.data);
+
+      alert("Credenciais atualizadas com sucesso!");
+
+      getUserById();
+    } catch (error) {
+      console.log("Erro ao buscar o produto: ", error);
+      alert("Erro ao atualizar credenciais. Tente novamente!");
+    }
+  };
+
   return (
     <PedidosContext.Provider
       value={{
@@ -171,6 +185,7 @@ export function PedidosProvider({ children }) {
         produtoByType,
         type,
         invisibleProduct,
+        updateCredenciais,
       }}
     >
       {children}
