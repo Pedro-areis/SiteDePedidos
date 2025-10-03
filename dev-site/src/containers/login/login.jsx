@@ -35,18 +35,8 @@ function LoginPage({ setLogin }) {
       navigate("/");
 
       localStorage.setItem("userId", response.data.userId);
-      const userId = localStorage.getItem("userId");
-
-      console.log(
-        "Login bem-sucedido! Seu userId é: ",
-        userId,
-        " e o token é: ",
-        token,
-        "sua role é: ",
-        role
-      );
-    } catch (err) {
-      console.error(err);
+      
+    } catch {
       alert("Login ou senha incorretos. Tente novamente.");
 
       const limparInputEmail = document.getElementById("e-mail");

@@ -9,7 +9,6 @@ function Pedidos() {
 
   useEffect(() => {
     getHistorico();
-    console.log("ID do usuário logado:", localStorage.getItem("userId"));
   }, []);
 
   const pedidos = pedidosHistorico;
@@ -45,8 +44,6 @@ function Pedidos() {
                 valor_unitario: valorUnitario,
                 valor_total: valorTotal,
               });
-
-              console.log(acc);
               acc[item.pedido_id].total += valorTotal;
 
               return acc;

@@ -7,8 +7,6 @@ function Cadastro() {
   const [email, setEmail] = useState("");
   const [nome, setNome] = useState("");
 
-
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,18 +33,16 @@ function Cadastro() {
     }
 
     try {
-      const response = await api.post("/createUser", {
+      await api.post("/createUser", {
         nome,
         email,
         senha,
       });
 
-      console.log(response.data);
-      
       alert("Usuário cadastrado com sucesso! Faça o login para continuar.");
       navigate("/login");
-    } catch (err) {
-      console.error(err);
+    } catch {
+
       const limparInputName = document.getElementById("name");
       limparInputName.value = "";
 

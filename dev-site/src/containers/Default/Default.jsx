@@ -10,7 +10,7 @@ import { PedidosContext } from "../../context/pedidosContext";
 function Default() {
   const [menuAberto, setMenuAberto] = useState(false); //cria a variavel menuAberto para determinar se a irá apresentar o menu de usuario;
   const navigator = useNavigate(); // Hook para navegação
-  const { login, setLogin } = useContext(PedidosContext);
+  const { setLogin } = useContext(PedidosContext);
 
   // Estado para controlar a exibição do componente ConfigUser e UserInfo
   const [configUser, setConfigUser] = useState(false);
@@ -25,8 +25,6 @@ function Default() {
     localStorage.removeItem("token");
     navigator("/login");
     setLogin(false);
-
-    console.log("Usuário deslogado", login);
   };
 
   const handleConfig = () => {

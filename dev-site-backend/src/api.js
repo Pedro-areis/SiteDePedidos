@@ -3,6 +3,8 @@
 // PUT / PATCH - Alterar informações
 // DELETE - Deletar informações
 
+import "dotenv/config";
+
 import express from "express";
 import conectDatabase from "./database/db.js";
 import routes from "./routes.js";
@@ -16,6 +18,6 @@ app.use(express.json()); //app irá reconhecer json;
 app.use(routes);
 
 conectDatabase();
-app.listen(3000, () => {
+app.listen(process.env.PORT, () => {
   console.log(`Server rodando`);
 });

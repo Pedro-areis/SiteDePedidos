@@ -3,10 +3,10 @@ import mysql from "mysql2";
 function conectDatabase() {
   return mysql
     .createConnection({
-      host: "localhost",
-      user: "root",
-      password: "P1d5c9w@",
-      database: "sitepedidos",
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
     })
     .promise();
 }

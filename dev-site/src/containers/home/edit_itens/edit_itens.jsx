@@ -50,8 +50,7 @@ function EditItens() {
       getProdutos();
       getProdutosByType();
       alert("Produto deletado!");
-    } catch (err) {
-      console.error("Erro ao deletar produto: ", err);
+    } catch {
       alert("Erro ao deletar produto.");
     }
   };

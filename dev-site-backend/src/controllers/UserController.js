@@ -4,13 +4,10 @@ import bcrypt from "bcrypt";
 
 const conection = conectDatabase();
 
-const SECRET = "CHAVE_SECRETA";
-
 async function createUser(req, res) {
   const { nome, email, senha } = req.body;
 
   try {
-    console.log(req.body);
     if (!senha) return res.status(400).json({ error: "Senha não fornecida" });
 
     const hash = await bcrypt.hash(senha, 10);
@@ -24,8 +21,7 @@ async function createUser(req, res) {
       message: "Usuário criado com sucesso!",
       userId: result.insertId,
     });
-  } catch (err) {
-    console.error("Erro ao criar usuário:", err);
+  } catch {
     res.status(500).json({ error: "Erro ao criar usuário" });
   }
 }
@@ -51,13 +47,13 @@ async function validarUser(req, res) {
     }
 
     // Cria token com id e role
-    const token = jwt.sign({ userId: usuario.id }, SECRET, {
+    const token = jwt.sign({ userId: usuario.id }, process.env.CHAVE_SECRETA, {
       expiresIn: "1h",
     });
 
     res.json({ token, userId: usuario.id, role: usuario.role });
   } catch (err) {
-    console.error("Erro ao validar usuário:", err);
+    console.error("ERRO NO LOGIN:", err);
     res.status(500).json({ error: "Erro interno no servidor" });
   }
 }
@@ -71,7 +67,7 @@ function autenticarToken(req, res, next) {
   if (!token) return res.status(401).json({ error: "Token inválido" });
 
   try {
-    const decoded = jwt.verify(token, SECRET);
+    const decoded = jwt.verify(token, process.env.CHAVE_SECRETA);
     req.userId = decoded.userId;
     next();
   } catch (err) {
@@ -167,8 +163,7 @@ async function postPedidos(req, res) {
       message: "Todos os itens foram inseridos com sucesso",
       pedido_id: pedidoId,
     });
-  } catch (err) {
-    console.error("Erro ao criar pedido:", err);
+  } catch {
     res.status(500).json({ error: "Erro ao criar pedido" });
   }
 }
@@ -252,8 +247,7 @@ async function updateStatus(req, res) {
       return res.status(404).json({ message: "Pedido não encontrado" });
     }
     res.status(200).json({ message: "Pedido enviado para o historico" });
-  } catch (err) {
-    console.error("ERRO NO UPDATE:", err);
+  } catch {
     res.status(500).json(err);
   }
 }
@@ -324,7 +318,6 @@ async function updateItem(req, res) {
       .status(200)
       .json({ message: "Item atualizado com sucesso no banco de dados." });
   } catch (err) {
-    console.error("ERRO NO UPDATE:", err);
     res.status(500).json({ message: "Erro interno no servidor.", error: err });
   }
 }
@@ -344,7 +337,6 @@ async function adiconarNovoProduto(req, res) {
 
     res.status(200).json({ message: "Item adicionado no banco de dados" });
   } catch (err) {
-    console.error("ERRO NO POST DO PRODUTO:", err);
     res.status(500).json(err);
   }
 }
@@ -367,7 +359,6 @@ async function updateType(req, res) {
 
     res.status(200).json({ message: "Item atualizado no banco de dados" });
   } catch (err) {
-    console.error("ERRO NO UPDATE:", err);
     res.status(500).json(err);
   }
 }
@@ -392,7 +383,6 @@ async function updateCredenciais(req, res) {
 
     res.status(200).json({ message: "Item atualizado no banco de dados" });
   } catch (err) {
-    console.error("ERRO NO UPDATE:", err);
     res.status(500).json(err);
   }
 }

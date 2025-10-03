@@ -44,17 +44,14 @@ function EditarProduto({ onClose }) {
       formData.append("imagem", imgAtualizada);
     }
     try {
-      const response = await api.put(`/produto/att/${id}`, formData, {
+      await api.put(`/produto/att/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
       alert("Produto atualizado!");
       limparCampos();
-
-      console.log("Pedido atualizado", response.data);
-    } catch (err) {
-      console.error("Erro ao enviar pedido:", err);
+    } catch {
       alert("Erro ao atualizar produto.");
     }
   };

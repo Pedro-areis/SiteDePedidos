@@ -46,7 +46,6 @@ function Home() {
     }
 
     setItensSelecionados((prev) => [...prev, ...newItens]);
-    console.log("Itens adicionados:", newItens);
   };
 
   const mostrarBotao = () => {
@@ -92,17 +91,13 @@ function Home() {
       setItensSelecionados([]);
       setValorCarrinho(0);
 
-      console.log("Pedido enviado com sucesso:", response.data);
-      console.log("Lista limpa:", itensSelecionados);
-      console.log("LocalStorage é:", localStorage.getItem("pedido_id"));
-
       if (itensSelecionados.length == 0) {
         alert("Selecione um item para enviar ao carrinho.");
       } else {
         alert("Pedido enviado com sucesso!");
       }
-    } catch (err) {
-      console.error("Erro ao enviar pedido:", err);
+    } catch {
+      console.error("Erro ao enviar pedido:");
     }
   };
 

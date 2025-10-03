@@ -34,16 +34,15 @@ function NovoProduto({ onClose }) {
     formData.append("categoria", categoriaAtualizada);
 
     try {
-      const response = await api.post("/novo_produto", formData, {
+      await api.post("/novo_produto", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
       alert("Produto adicionado!");
       limparCampos();
-      console.log("Novo produto enviado com sucesso: ", response.data);
-    } catch (err) {
-      console.error("Erro ao adicionar novo produto: ", err);
+    } catch {
+      console.error("Erro ao adicionar novo produto");
       alert("Erro ao adicionar produto. Tente novamente!");
     }
   };

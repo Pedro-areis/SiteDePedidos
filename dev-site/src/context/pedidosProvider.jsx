@@ -25,9 +25,8 @@ export function PedidosProvider({ children }) {
     try {
       const response = await api.get("/produtosDB");
       setProduto(response.data);
-      console.log(produto);
-    } catch (err) {
-      console.error("Erro ao buscar produtos:", err);
+    } catch {
+      console.error("Erro ao buscar produtos:");
     }
   };
 
@@ -35,8 +34,8 @@ export function PedidosProvider({ children }) {
     try {
       const response = await api.get("/produtosDB/tipo");
       setProdutoByType(response.data);
-    } catch (err) {
-      console.error("Erro ao buscar produtos:", err);
+    } catch {
+      console.error("Erro ao buscar produtos");
     }
   };
 
@@ -44,9 +43,8 @@ export function PedidosProvider({ children }) {
     try {
       const response = await api.get("/carrinho");
       setPedidos(response.data);
-      console.log("Pedidos no carrinho:", response.data);
-    } catch (err) {
-      console.error("Erro ao buscar pedidos no carrinho:", err);
+    } catch {
+      console.error("Erro ao buscar pedidos no carrinho:");
     }
   };
 
@@ -56,8 +54,8 @@ export function PedidosProvider({ children }) {
       setPedidos((prevPedidos) =>
         prevPedidos.filter((pedidos) => pedidos.id !== id)
       );
-    } catch (err) {
-      console.error("Erro ao excluir pedido:", err);
+    } catch {
+      console.error("Erro ao excluir pedido");
     }
   };
 
@@ -65,29 +63,23 @@ export function PedidosProvider({ children }) {
     try {
       const response = await api.get("/historico");
       setPedidosHistorico(response.data);
-      console.log("Pedidos no historico", response.data);
-    } catch (err) {
-      console.error("Erro ao buscar produtos:", err);
+    } catch {
+      console.error("Erro ao buscar produtos");
     }
   };
 
   const updateStatus = async () => {
     const id = localStorage.getItem("pedido_id");
     try {
-      console.log("ID do pedido no localStorage:", id);
-
       await api.put(`/historico/${id}`);
 
       setPedidos((prevPedidos) =>
         prevPedidos.filter((pedido) => pedido.pedido_id !== id)
       );
-
       localStorage.removeItem("pedido_id");
-
-      console.log("Sucesso!!!!", id);
       getPedidos();
-    } catch (err) {
-      console.error("Erro ao finalizar pedido!", err);
+    } catch {
+      console.error("Erro ao finalizar pedido!");
     }
   };
 
@@ -95,9 +87,8 @@ export function PedidosProvider({ children }) {
     try {
       const response = await api.get("/user");
       setUser(response.data);
-      console.log("Dados do usuário:", response.data);
-    } catch (err) {
-      console.error("Erro ao buscar usuário:", err);
+    } catch {
+      console.error("Erro ao buscar usuário:");
     }
   };
 
@@ -105,9 +96,8 @@ export function PedidosProvider({ children }) {
     try {
       const response = await api.get(`/produto/${id}`);
       setProdutoById(response.data);
-      console.log("Dados do produto: ", response.data);
-    } catch (error) {
-      console.log("Erro ao buscar o produto: ", error);
+    } catch {
+      console.error("Erro ao buscar o produto: ");
     }
   };
 
@@ -117,14 +107,12 @@ export function PedidosProvider({ children }) {
     } else {
       tipo = "not_fav";
     }
-
     try {
-      const response = await api.put(`/produtos/tipo/${id}`, { tipo: tipo });
-      console.log("Dados do produto: ", response.data);
+      await api.put(`/produtos/tipo/${id}`, { tipo: tipo });
       getProdutosByType();
       getProdutos();
-    } catch (error) {
-      console.log("Erro ao buscar o produto: ", error);
+    } catch {
+      console.log("Erro ao buscar o produto");
     }
   };
 
@@ -134,29 +122,21 @@ export function PedidosProvider({ children }) {
     } else {
       tipo = "not_fav";
     }
-
     try {
-      const response = await api.put(`/produtos/tipo/${id}`, { tipo: tipo });
-
+      await api.put(`/produtos/tipo/${id}`, { tipo: tipo });
       setType("Produto invisivel para o cliente!");
       getProdutos();
-
-      console.log("Dados do produto: ", response.data);
-    } catch (error) {
-      console.log("Erro ao buscar o produto: ", error);
+    } catch {
+      console.error("Erro ao buscar o produto");
     }
   };
 
   const updateCredenciais = async (email, senha) => {
     try {
-      const response = await api.put("/user", { email, senha });
-      console.log("Dados do usuário: ", response.data);
-
+      await api.put("/user", { email, senha });
       alert("Credenciais atualizadas com sucesso!");
-
       getUserById();
-    } catch (error) {
-      console.log("Erro ao buscar o produto: ", error);
+    } catch {
       alert("Erro ao atualizar credenciais. Tente novamente!");
     }
   };
