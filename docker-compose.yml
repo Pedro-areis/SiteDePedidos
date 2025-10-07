@@ -1,0 +1,46 @@
+version: '3.9'
+services:
+  db:
+    image: mysql:8.0
+    container_name: db-container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: P1d5c9w@
+      MYSQL_DATABASE: sitepedidos
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+  backend:
+    build: ./backend
+    container_name: backend-container_name
+    restart: always
+    env_file:
+      - ./backend/.env
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+
+  frontend:
+    build: ./frontend
+    container_name: frontend-container
+    restart: always
+    ports:
+      - 5173:80
+    depends_on:
+      - backend
+  
+  nginx:
+    build: ./nginx
+    container_name: nginx-container
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - frontend
+      - backend
+
+volumes:
+  db_data:
