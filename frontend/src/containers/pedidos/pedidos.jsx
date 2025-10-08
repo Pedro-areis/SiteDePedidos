@@ -4,8 +4,7 @@ import { PedidosContext } from "../../context/pedidosContext";
 
 function Pedidos() {
   //função que cria os metodos da página carrinho;
-  const { getHistorico, pedidosHistorico } =
-    useContext(PedidosContext);
+  const { getHistorico, pedidosHistorico } = useContext(PedidosContext);
 
   useEffect(() => {
     getHistorico();
@@ -15,7 +14,11 @@ function Pedidos() {
 
   return (
     <main>
-      <h2>Historico de pedidos</h2>
+      <div className="infos-title">
+        <h2>Historico de pedidos</h2>
+        <p>Realize o pagamento ao buscar o seu pedido no estabelecimento</p>
+      </div>
+
       <div className="container-pedidos">
         {pedidos.length === 0 ? (
           <section className="container-historico-vazio">

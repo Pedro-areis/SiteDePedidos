@@ -15,7 +15,7 @@
   background-color: rgba(146, 104, 104, 1);
   margin: 20px;
   border-radius: 10px;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .container-pedidos article {
@@ -31,7 +31,7 @@
 .container-pedidos p {
   background-color: rgba(146, 104, 104, 1);
   margin: 5px;
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .container-pedidos h3 {
@@ -56,16 +56,20 @@
   width: 60%;
 }
 
-.container-historico-vazio {
-  justify-content: center;
-  align-items: center;
-}
-
 .container-historico-vazio p {
   background-color: rgba(146, 104, 104, 1);
   margin: 5px;
 }
 
+.container-historico-vazio {
+  justify-content: center;
+  align-items: center;
+}
+
+.container-carrinho p {
+  background-color: rgba(146, 104, 104, 1);
+  margin: 5px;
+}
 .valor-total-pedido {
   flex-direction: row;
   width: 30%;
@@ -73,7 +77,23 @@
   position: absolute;
   bottom: 0;
   right: 0;
-  /* text-align: right;
-  margin-top: auto; */
   background-color: rgba(146, 104, 104, 1);
+}
+
+.infos-title {
+  display: flex;
+  margin: 5px;
+  flex-direction: row;
+  width: 100%;
+  height: 50px;
+  padding: 10px;
+}
+
+.infos-title p {
+  height: 35px;
+  margin-left: auto;
+  border: 1px solid rgba(146, 104, 104, 1);
+  border-radius: 5px;
+  padding: 5px;
+  text-align: center;
 }
