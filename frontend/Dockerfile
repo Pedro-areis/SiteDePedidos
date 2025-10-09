@@ -8,7 +8,7 @@ COPY . .
 
 RUN npm run build
 
-# Estapa de deploy com Nginx
+# Etapa de deploy com Nginx
 FROM nginx:alpine
 COPY --from=build /app/dist /usr/share/nginx/html
 EXPOSE 80
