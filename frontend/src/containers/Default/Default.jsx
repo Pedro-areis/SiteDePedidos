@@ -6,6 +6,8 @@ import { useState, useContext } from "react"; //importa o useState;
 import { useNavigate } from "react-router-dom"; //importa o useNavigate do react-router-dom;
 import { PedidosContext } from "../../context/pedidosContext";
 
+import imgUsuario from "../../assets/img_usuario.jpg";
+
 //função default da página (cabeçalho, conta, configurações, etc);
 function Default() {
   const [menuAberto, setMenuAberto] = useState(false); //cria a variavel menuAberto para determinar se a irá apresentar o menu de usuario;
@@ -51,7 +53,7 @@ function Default() {
       <h1>Cantina da Tia Nastacia</h1>
       <div id="usuario" onClick={toggleMenu}>
         {/*chama a função toggleMenu*/}
-        <img src="src\assets\img_usuario.jpg" alt="Perfil" />
+        <img src={imgUsuario} alt="Perfil" />
         {/*se menuAberto exibe a div menu-interativo (menu usuario)*/}
         {menuAberto && (
           <div id="menu-interativo">

@@ -4,6 +4,9 @@ import Counter from "./counter";
 import { useContext, useEffect, useState } from "react";
 import { PedidosContext } from "../../context/pedidosContext";
 
+import imgTelaInicial from "../../assets/img-tela-inicial.jpg";
+import imgCarrinho from "../../assets/img-carrinho.png";
+
 //função que cria os metodos do componente home;
 function Home() {
   const { getProdutos, getProdutosByType, produtoByType, produto } =
@@ -108,7 +111,7 @@ function Home() {
   return (
     <div className="home">
       <img
-        src="src/assets/img-tela-inicial.jpg"
+        src={imgTelaInicial}
         alt="img-tela-inicial"
         className="img-tela-inicial"
       />
@@ -285,7 +288,7 @@ function Home() {
       </div>
       <div className="botao-carrinho">
         <button onClick={postPedidos}>
-          <img src="src/assets/img-carrinho.png" alt="img_carrinho" />
+          <img src={imgCarrinho} alt="img_carrinho" />
         </button>
         <div className="indice-carrinho">
           <p>{valorCarrinho}</p>

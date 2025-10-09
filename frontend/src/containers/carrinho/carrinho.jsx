@@ -2,6 +2,8 @@ import "./carrinho.css"; //importa o css da página;
 import { useEffect, useContext } from "react";
 import { PedidosContext } from "../../context/pedidosContext";
 
+import imgExcluir from "../../assets/img-excluir.png";
+
 function Carrinho() {
   //função que cria os metodos da página carrinho;
   const { getPedidos, pedidos, deleteItem, updateStatus } =
@@ -34,7 +36,7 @@ function Carrinho() {
                   <p>Valor total: R$ {Number(item.valor_total).toFixed(2)}</p>
                 </div>
                 <button onClick={() => deleteItem(item.id)}>
-                  <img src="src/assets/img-excluir.png" alt="exluir" />
+                  <img src={imgExcluir} alt="exluir" />
                 </button>
               </article>
             </section>

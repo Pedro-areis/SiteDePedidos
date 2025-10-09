@@ -5,6 +5,11 @@ import EditarProduto from "./editar_produto/editar_produto";
 import NovoProduto from "../novo_produto/novo_produto";
 import api from "../../../services/api";
 
+import imgEditar from "../../../assets/img-editar.png";
+import imgStar from "../../../assets/star-icon.png";
+import imgArquivar from "../../../assets/img-arquivado.png";
+import imgExcluir from "../../../assets/img-excluir.png";
+
 function EditItens() {
   const {
     getProdutos,
@@ -83,10 +88,10 @@ function EditItens() {
               </div>
               <div className="buttom-edit">
                 <button onClick={() => handleEditProduto(produto.id)}>
-                  <img src="src/assets/img-editar.png" alt="editar" />
+                  <img src={imgEditar} alt="editar" />
                 </button>
                 <button onClick={() => updateType(produto.id, produto.tipo)}>
-                  <img src="src/assets/star-icon.png" alt="remover-de-promo" />
+                  <img src={imgStar} alt="remover-de-promo" />
                 </button>
               </div>
             </article>
@@ -122,11 +127,11 @@ function EditItens() {
               </div>
               <div className="buttom-edit-itens-not_fav">
                 <button onClick={() => handleEditProduto(produto.id)}>
-                  <img src="src/assets/img-editar.png" alt="editar" />
+                  <img src={imgEditar} alt="editar" />
                 </button>
                 <button onClick={() => updateType(produto.id, produto.tipo)}>
                   <img
-                    src="src/assets/star-icon.png"
+                    src={imgStar}
                     alt="adicionar-em-promo"
                   />
                 </button>
@@ -134,12 +139,12 @@ function EditItens() {
                   onClick={() => invisibleProduct(produto.id, produto.tipo)}
                 >
                   <img
-                    src="src/assets/img-arquivado.png"
+                    src={imgArquivar}
                     alt="arquivar-produto"
                   />
                 </button>
                 <button onClick={() => deleteProduto(produto.id)}>
-                  <img src="src/assets/img-excluir.png" alt="delete-produto" />
+                  <img src={imgExcluir} alt="delete-produto" />
                 </button>
               </div>
             </article>
