@@ -31,8 +31,6 @@ services:
     build: ./frontend
     container_name: frontend-container
     restart: always
-    ports:
-      - 5173:80
     depends_on:
       - backend
   
