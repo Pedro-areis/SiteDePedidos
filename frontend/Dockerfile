@@ -6,7 +6,7 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 
-RUN npm run build
+RUN npx vite build
 
 # Etapa de deploy com Nginx
 FROM nginx:alpine
