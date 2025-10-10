@@ -15,7 +15,7 @@ const app = express(); //cria a variavel para chamar o express;
 app.use(cors());
 app.use(express.json()); //app irá reconhecer json;
 
-app.use(routes);
+app.use('/api', routes);
 
 conectDatabase();
 app.listen(process.env.PORT, () => {
