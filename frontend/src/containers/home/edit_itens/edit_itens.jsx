@@ -73,7 +73,7 @@ function EditItens() {
               <div className="img-promo">
                 <h3>{produto.nome}</h3>
                 <img
-                  src={`http://localhost:3000/produtosDB/imagem/${produto.id}`}
+                  src={`/produtosDB/imagem/${produto.id}`}
                   alt={produto.nome}
                 />
               </div>
@@ -109,7 +109,7 @@ function EditItens() {
               <div className="img-promo">
                 <h3>{produto.nome}</h3>
                 <img
-                  src={`http://localhost:3000/produtosDB/imagem/${produto.id}`}
+                  src={`/produtosDB/imagem/${produto.id}`}
                   alt={produto.nome}
                 />
                 {produto.tipo == "invisible" && (
