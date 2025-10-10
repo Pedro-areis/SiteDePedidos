@@ -13,9 +13,9 @@ services:
     ports:
       - "3306:3306"
   backend:
-    # image: pedro084/backend-ecommerce:1.0
+    image: pedro084/backend-ecommerce:1.2
 
-    build: ./backend
+    # build: ./backend
     container_name: backend-container_name
     restart: always
     env_file:
@@ -26,18 +26,18 @@ services:
       - db
 
   frontend:
-    # image: pedro084/frontend-ecommerce:1.0
+    image: pedro084/frontend-ecommerce:1.2
 
-    build: ./frontend
+    # build: ./frontend
     container_name: frontend-container
     restart: always
     depends_on:
       - backend
   
   nginx:
-    # image: pedro084/nginx-ecommerce:1.0
+    image: pedro084/nginx-ecommerce:1.2
 
-    build: ./nginx
+    # build: ./nginx
     container_name: nginx-container
     restart: always
     ports:
