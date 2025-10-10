@@ -124,7 +124,7 @@ function Home() {
             <div className="img-promo">
               <h3>{produto.nome}</h3>
               <img
-                src={`/produtosDB/imagem/${produto.id}`}
+                src={`api/produtosDB/imagem/${produto.id}`}
                 alt={produto.nome}
               />
               {counts[produto.id] >= 1 ? mostrarBotao() : null}
@@ -173,7 +173,7 @@ function Home() {
                 <div className="img-produtos">
                   <h3>{produto.nome}</h3>
                   <img
-                    src={`/produtosDB/imagem/${produto.id}`}
+                    src={`api/produtosDB/imagem/${produto.id}`}
                     alt={produto.nome}
                   />
                   {counts[produto.id] >= 1 ? mostrarBotao() : null}
