@@ -99,7 +99,9 @@ function EditarProduto({ onClose }) {
                 />
               </div>
             </div>
+
             <span>Descrição:</span>
+            
             <textarea
               name="descricao"
               id="desc"

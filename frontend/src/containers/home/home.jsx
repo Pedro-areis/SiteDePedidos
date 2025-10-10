@@ -178,6 +178,7 @@ function Home() {
                   />
                   {counts[produto.id] >= 1 ? mostrarBotao() : null}
                 </div>
+                
                 <div className="info-item">
                   <p>
                     {produto.descricao} <br />
