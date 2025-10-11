@@ -3,6 +3,8 @@ import { useContext, useEffect, useState } from "react";
 import { PedidosContext } from "../../../../context/pedidosContext";
 import api from "../../../../services/api";
 
+import imgFile from "../../../../assets/img-file.jpg";
+
 function EditarProduto({ onClose }) {
   const { getProdutosById, produtoById } = useContext(PedidosContext);
 
@@ -87,7 +89,7 @@ function EditarProduto({ onClose }) {
               <div className="file-alt-img">
                 <label htmlFor="alt-img">
                   <img
-                    src="src/assets/img-file.jpg"
+                    src={imgFile}
                     alt="alterar-imagem-produto"
                   />
                 </label>
