@@ -73,7 +73,7 @@ function EditItens() {
               <div className="img-promo">
                 <h3>{produto.nome}</h3>
                 <img
-                  src={`/produtosDB/imagem/${produto.id}`}
+                  src={`api/produtosDB/imagem/${produto.id}`}
                   alt={produto.nome}
                 />
               </div>

@@ -81,7 +81,7 @@ function EditarProduto({ onClose }) {
             />
             <div className="img-produto">
               <img
-                src={`/produtosDB/imagem/${item.id}`}
+                src={`api/produtosDB/imagem/${item.id}`}
                 alt={item.nome}
               />
               <div className="file-alt-img">
