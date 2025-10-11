@@ -13,7 +13,7 @@ services:
     ports:
       - "3306:3306"
   backend:
-    image: pedro084/backend-ecommerce:1.3
+    image: pedro084/backend-ecommerce
 
     # build: ./backend
     container_name: backend-container_name
@@ -26,7 +26,7 @@ services:
       - db
 
   frontend:
-    image: pedro084/frontend-ecommerce:1.3
+    image: pedro084/frontend-ecommerce
 
     # build: ./frontend
     container_name: frontend-container
@@ -35,7 +35,7 @@ services:
       - backend
   
   nginx:
-    image: pedro084/nginx-ecommerce:1.3
+    image: pedro084/nginx-ecommerce
 
     # build: ./nginx
     container_name: nginx-container
