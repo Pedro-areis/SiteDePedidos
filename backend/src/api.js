@@ -13,9 +13,10 @@ import cors from "cors";
 const app = express(); //cria a variavel para chamar o express;
 
 app.use(cors());
-app.use(express.json()); //app irá reconhecer json;
+app.use(express.json({ limit: "10mb" })); //app irá reconhecer json;
+app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
-app.use('/api', routes);
+app.use("/api", routes);
 
 conectDatabase();
 app.listen(process.env.PORT, () => {

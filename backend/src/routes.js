@@ -22,7 +22,10 @@ import {
 } from "./controllers/UserController.js";
 
 const routes = Router();
-const upload = multer();
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 5 * 1024 * 1024 },
+});
 
 routes.get("/produtosDB", getProdutos);
 routes.get("/produtosDB/tipo", getProdutosByType);
